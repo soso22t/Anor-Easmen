@@ -16,7 +16,7 @@ import NavigationDock from "@/components/NavigationDock";
 
 const Index = () => {
   const [opened, setOpened] = useState(false);
-
+  const [playMusic, setPlayMusic] = useState(false);
   useEffect(() => {
     if (opened) {
       const startPosition = window.pageYOffset;
@@ -59,10 +59,15 @@ setTimeout(() => {
       <SprayParticles />
       
       {/* الشريط السفلي للتنقل والموسيقى */}
-      <NavigationDock active={opened} />
+<NavigationDock active={opened} playMusic={playMusic} />
 
       {/* 1. الظرف */}
-      <Envelope onOpen={() => setOpened(true)} />
+<Envelope
+  onOpen={() => {
+    setOpened(true);
+    setPlayMusic(true);
+  }}
+/>
 
       {/* 2. محتوى الموقع */}
       <main className="relative z-10 w-full pb-24">
