@@ -77,123 +77,66 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     setCapturedImage(null);
   };
 
-  // التقاط الصورة وتطبيق الخطوط المطلوبة بدقة على الكانفاس
-  const capturePhoto = () => {
-    if (!videoRef.current || !canvasRef.current) return;
+  // // التقاط الصورة
+const capturePhoto = () => {
+  if (!videoRef.current || !canvasRef.current) return;
 
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  const video = videoRef.current;
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
 
-    canvas.width = 1080;
-    canvas.height = 1920;
+  canvas.width = 1080;
+  canvas.height = 1920;
 
-    const vRatio = video.videoWidth / video.videoHeight || 9 / 16;
-    const cRatio = canvas.width / canvas.height;
+  const vRatio = video.videoWidth / video.videoHeight || 9 / 16;
+  const cRatio = canvas.width / canvas.height;
 
-    let renderWidth = canvas.width;
-    let renderHeight = canvas.height;
-    let offsetX = 0;
-    let offsetY = 0;
+  let renderWidth = canvas.width;
+  let renderHeight = canvas.height;
+  let offsetX = 0;
+  let offsetY = 0;
 
-    if (vRatio > cRatio) {
-      renderWidth = canvas.height * vRatio;
-      offsetX = (canvas.width - renderWidth) / 2;
-    } else {
-      renderHeight = canvas.width / vRatio;
-      offsetY = (canvas.height - renderHeight) / 2;
-    }
+  if (vRatio > cRatio) {
+    renderWidth = canvas.height * vRatio;
+    offsetX = (canvas.width - renderWidth) / 2;
+  } else {
+    renderHeight = canvas.width / vRatio;
+    offsetY = (canvas.height - renderHeight) / 2;
+  }
 
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(
-      video,
-      offsetX,
-      offsetY,
-      renderWidth,
-      renderHeight
-    );
+  ctx.drawImage(
+    video,
+    offsetX,
+    offsetY,
+    renderWidth,
+    renderHeight
+  );
 
-    const decoration = new Image();
+  // الاسم
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "bold 52px IranNastaliq";
 
-    decoration.onload = () => {
-      const cornerWidth = 190;
-      const cornerHeight = 255;
+  ctx.shadowColor = "rgba(0,0,0,0.45)";
+  ctx.shadowBlur = 10;
 
-      // أعلى يسار (0 درجة)
-      ctx.drawImage(
-        decoration,
-        0,
-        0,
-        cornerWidth,
-        cornerHeight
-      );
+  ctx.fillText(
+    "عبـداللّٰه & ريمـان",
+    canvas.width / 2,
+    canvas.height - 150
+  );
 
-      // أعلى يمين (تدوير 90 درجة)
-      ctx.save();
-      ctx.translate(canvas.width, 0);
-      ctx.rotate((90 * Math.PI) / 180);
-      ctx.drawImage(
-        decoration,
-        0,
-        0,
-        cornerWidth,
-        cornerHeight
-      );
-      ctx.restore();
+  ctx.shadowColor = "transparent";
+  ctx.shadowBlur = 0;
 
-      // أسفل يسار (تدوير -90 درجة)
-      ctx.save();
-      ctx.translate(0, canvas.height);
-      ctx.rotate((-90 * Math.PI) / 180);
-      ctx.drawImage(
-        decoration,
-        0,
-        0,
-        cornerWidth,
-        cornerHeight
-      );
-      ctx.restore();
-
-      // أسفل يمين (تدوير 180 درجة)
-      ctx.save();
-      ctx.translate(canvas.width, canvas.height);
-      ctx.rotate((180 * Math.PI) / 180);
-      ctx.drawImage(
-        decoration,
-        0,
-        0,
-        cornerWidth,
-        cornerHeight
-      );
-      ctx.restore();
-
-      // الاسم
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#FFFFFF";
-      ctx.font = "bold 52px IranNastaliq";
-
-      ctx.shadowColor = "rgba(0,0,0,0.45)";
-      ctx.shadowBlur = 10;
-
-      ctx.fillText(
-        "عبـداللّٰه & ريسـان",
-        canvas.width / 2,
-        canvas.height - 150
-      );
-
-      ctx.shadowColor = "transparent";
-      ctx.shadowBlur = 0;
-
-      const imageUrl = canvas.toDataURL("image/png");
-      setCapturedImage(imageUrl);
-    };
-
-    decoration.src = etImg;
-  };
+  const imageUrl = canvas.toDataURL("image/png");
+  setCapturedImage(imageUrl);
+};
 
   // مشاركة الصورة
   const handleShare = async () => {
@@ -250,29 +193,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 />
 
                 {/* زخارف الزوايا المعدلة في الواجهة */}
-                <img
-                  src={etImg}
-                  className="absolute top-0 left-0 w-[95px] pointer-events-none"
-                  alt=""
-                />
-
-                <img
-                  src={etImg}
-                  className="absolute top-0 right-0 w-[95px] rotate-90 pointer-events-none"
-                  alt=""
-                />
-
-                <img
-                  src={etImg}
-                  className="absolute bottom-0 left-0 w-[95px] -rotate-90 pointer-events-none"
-                  alt=""
-                />
-
-                <img
-                  src={etImg}
-                  className="absolute bottom-0 right-0 w-[95px] rotate-180 pointer-events-none"
-                  alt=""
-                />
+                
 
                 {/* النصوص */}
                 <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-6 text-center bg-gradient-to-t from-black/80 via-black/25 to-transparent">
