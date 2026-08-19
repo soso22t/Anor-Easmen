@@ -126,7 +126,7 @@ setTimeout(() => {
                 <span style={{ fontFamily: "'Almarai', sans-serif" }}>أم طـارق</span>
                 {/* <span className="text-2xl" style={{ fontFamily: "'WaFont', sans-serif" }}>&</span>
                 <span style={{ fontFamily: "'Almarai', sans-serif" }}>أم طلال السعيد</span>
-              </div> */}
+              </div> 
 
               {/* السطر السادس */}
             <p className="font-arabic text-sm sm:text-base pt-2" style={{ color: "#5F4F41" }}>
