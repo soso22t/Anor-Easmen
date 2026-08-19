@@ -16,7 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { QRCodeCanvas } from "qrcode.react";
 
 // 🎵 استيراد ملف الصوت m4a
-import bgMusic from "@/assets/music.m4a";
+import bgMusic from "@/assets/tar.m4a";
 
 interface NavigationDockProps {
   active: boolean;
