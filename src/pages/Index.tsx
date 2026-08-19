@@ -125,7 +125,7 @@ setTimeout(() => {
              <div className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2" style={{ color: "#5F4F41" }}>
                 <span style={{ fontFamily: "'Almarai', sans-serif" }}>أم طـارق</span>
                 {/* <span className="text-2xl" style={{ fontFamily: "'WaFont', sans-serif" }}>&</span>
-                <span style={{ fontFamily: "'Almarai', sans-serif" }}>أم طلال السعيد</span>
+                <span style={{ fontFamily: "'Almarai', sans-serif" }}>أم طلال السعيد</span>*/}
               </div> 
 
               {/* السطر السادس */}
