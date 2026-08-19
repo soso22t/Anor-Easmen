@@ -1364,9 +1364,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </span>
           </button>
 
-          {/* 3. الكاميرا */}
+          {/* 3. القلب في المنتصف */}
           <button
-            onClick={openCamera}
+            onClick={() => {}}
             className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
           >
             <div
@@ -1375,7 +1375,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 background: "#5F4F41",
               }}
             >
-              <Camera className="w-6 h-6 text-white" />
+              <Heart className="w-6 h-6 text-white fill-white" />
             </div>
           </button>
 
@@ -1400,12 +1400,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </span>
           </button>
 
-          {/* 5. تأكيد الحضور */}
+          {/* 5. الكاميرا */}
           <button
-            onClick={openRSVP}
+            onClick={openCamera}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
-            <Heart
+            <Camera
               className="w-5 h-5"
               style={{ color: "#5F4F41" }}
             />
@@ -1414,7 +1414,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               className="font-arabic text-[11px] font-bold"
               style={{ color: "#5F4F41" }}
             >
-              تأكيد الحضور
+              كاميرا
             </span>
           </button>
         </div>
