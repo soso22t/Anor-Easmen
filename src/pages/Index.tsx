@@ -118,7 +118,7 @@ const Index = () => {
       const distance = targetPosition - startPosition;
 
       let startTime: number;
-      const duration = 18000; // 18 ثانية
+      const duration = 30000; // 18 ثانية
 
       const animation = () => {
         const elapsed = Date.now() - startTime;
@@ -633,7 +633,7 @@ const Index = () => {
                                   "#5F4F41",
                               }}
                             >
-                              تم تأكيد حضوركم
+                           تم تأكيد حضورك
                             </h3>
 
                             <p
@@ -654,7 +654,7 @@ const Index = () => {
                                   "#5F4F41",
                               }}
                             >
-                              يسعدنا ويشرفنا حضوركم 🤍
+                           يسعدنا ويشرفنا حضورك 🤎
                             </p>
                           </div>
                         )}
@@ -670,7 +670,7 @@ const Index = () => {
                                   "#5F4F41",
                               }}
                             >
-                              تم تسجيل اعتذاركم
+                              تم تسجيل اعتذارك
                             </h3>
 
                             <p
@@ -684,7 +684,7 @@ const Index = () => {
                               {rsvpName}
                               <br />
                               ونراك في مناسبة أخرى
-                              بإذن الله 🤍
+                              بإذن الله 🤎
                             </p>
                           </div>
                         )}
