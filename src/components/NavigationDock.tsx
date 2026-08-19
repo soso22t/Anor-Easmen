@@ -222,7 +222,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     ctx.shadowBlur = 10;
 
     ctx.fillText(
-      "عبـداللّٰه & ريمـان",
+      "طـارق & كادي",
       canvas.width / 2,
       canvas.height - 150
     );
@@ -260,7 +260,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       ) {
         await navigator.share({
           files: [file],
-          title: "عبـداللّٰه & ريسـان",
+          title: "طـارق & كادي",
         });
       } else {
         alert(
@@ -276,7 +276,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   // الاتصال
   // =========================================================
   const handlePhoneClick = () => {
-    window.location.href = "tel:0554129943";
+    window.location.href = "tel:0552049208";
   };
 
   // =========================================================
@@ -681,7 +681,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       }}
                       className="text-3xl font-bold"
                     >
-                      عبـداللّٰه & ريسـان
+                      طـارق & كادي
                     </p>
                   </div>
                 </div>
@@ -1365,25 +1365,31 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           </button>
 
           {/* 3. القلب في المنتصف */}
-          <button
-            onClick={() => {}}
-            className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
-          >
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
-              style={{
-                background: "#5F4F41",
-              }}
-            >
-              <Heart className="w-6 h-6 text-white fill-white" />
-            </div>
-          </button>
+<button
+  onClick={() => {}}
+  className="flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
+>
+  <div
+    className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
+    style={{
+      background: "#5F4F41",
+    }}
+  >
+    <Heart
+      className="w-6 h-6"
+      style={{
+        color: "#F5EFE7",
+        fill: "#F5EFE7",
+      }}
+    />
+  </div>
+</button>
 
           {/* 4. الموقع */}
           <button
             onClick={() => {
               window.location.href =
-                "https://maps.app.goo.gl/wME9accoybXmq5M6A?g_st=ic";
+  "https://maps.app.goo.gl/W9Y7hVc7XPKcRB8h7?g_st=ic";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
@@ -1414,7 +1420,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               className="font-arabic text-[11px] font-bold"
               style={{ color: "#5F4F41" }}
             >
-              كاميرا
+              الكاميرا
             </span>
           </button>
         </div>
