@@ -1386,13 +1386,13 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 </button>
 
           {/* 4. الموقع */}
-          <button
-            onClick={() => {
-              window.location.href =
-  "https://maps.app.goo.gl/W9Y7hVc7XPKcRB8h7?g_st=ic";
-            }}
-            className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
-          >
+         <button
+  onClick={() => {
+    window.location.href =
+      "https://www.google.com/maps/search/?api=1&query=قاعة+هدب+الرياض";
+  }}
+  className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
+>
             <MapPin
               className="w-5 h-5"
               style={{ color: "#5F4F41" }}
