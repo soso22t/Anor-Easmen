@@ -137,14 +137,14 @@ const Index = () => {
 
               {/* الثلاث سطور تحته */}
               <p
-                className="font-arabic text-base sm:text-lg opacity-90 pb-2"
+                className="font-arabic text-base sm:text-lg opacity-90 "
                 style={{ color: "#5F4F41" }}
               >
                 بمشاعر مليئة بالفرح والسعادة
               </p>
 
               <p
-                className="font-arabic text-base sm:text-lg opacity-90 pb-2"
+                className="font-arabic text-base sm:text-lg opacity-90 "
                 style={{ color: "#5F4F41" }}
               >
                 ولأن الفرحة لا تكتمل الا برؤيتكم
