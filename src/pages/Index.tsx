@@ -224,32 +224,30 @@ const Index = () => {
 
             {/* قسم الموقع */}
             <div
-              id="location"
-              className="text-center space-y-0.5 py-1"
-            >
+  id="location"
+  className="text-center space-y-0.5 py-1"
+>
+  <h3
+    className="font-arabic text-lg sm:text-xl font-bold"
+    style={{ color: "#5F4F41" }}
+  >
+    الموقع
+  </h3>
 
-              <h3
-                className="font-arabic text-base sm:text-lg font-bold"
-                style={{ color: "#5F4F41" }}
-              >
-                الموقع
-              </h3>
+  <p
+    className="font-arabic text-base sm:text-lg font-semibold"
+    style={{ color: "#5F4F41" }}
+  >
+    قاعـة الرون
+  </p>
 
-              <p
-                className="font-arabic text-sm font-semibold"
-                style={{ color: "#5F4F41" }}
-              >
-                قاعـة الرون
-              </p>
-
-              <p
-                className="font-arabic text-xs font-medium opacity-90"
-                style={{ color: "#5F4F41" }}
-              >
-                صبيا العدايا
-              </p>
-
-            </div>
+  <p
+    className="font-arabic text-sm sm:text-base font-medium opacity-90"
+    style={{ color: "#5F4F41" }}
+  >
+    صبيا العدايا
+  </p>
+</div>
 
             {/* التقويم */}
             <div className="flex flex-col items-center space-y-3">
