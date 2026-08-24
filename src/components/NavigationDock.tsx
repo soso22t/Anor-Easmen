@@ -587,7 +587,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     "'IranNastaliq', sans-serif",
                 }}
               >
-                تواصل معنا
+                للتواصل
               </h2>
 
               <p
@@ -597,7 +597,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     "'Almarai', sans-serif",
                 }}
               >
-                يسعدنا تواصلكم معنا
+ 
               </p>
 
               <p
