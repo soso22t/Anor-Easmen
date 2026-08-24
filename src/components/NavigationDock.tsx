@@ -12,11 +12,10 @@ import {
   Check,
   Send,
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { QRCodeCanvas } from "qrcode.react";
 
-// 🎵 استيراد ملف الصوت m4a
-import bgMusic from "@/assets/tar.m4a";
+// 🎵 استيراد ملف الصوت
+import bgMusic from "@/assets/music.m4a";
 
 interface NavigationDockProps {
   active: boolean;
@@ -24,11 +23,10 @@ interface NavigationDockProps {
 
 type RSVPState =
   | { kind: "form" }
-  | { kind: "choose_name"; phone: string; names: string[] }
   | { kind: "loading" }
   | { kind: "declined"; name: string }
   | { kind: "error"; msg: string }
-  | { kind: "qr"; name: string; qr: string };
+  | { kind: "success"; name: string };
 
 const NavigationDock = ({ active }: NavigationDockProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,8 +36,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   // ===== RSVP =====
   const [showRSVP, setShowRSVP] = useState(false);
   const [guestName, setGuestName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [selectedName, setSelectedName] = useState("");
   const [rsvpStatus, setRsvpStatus] = useState<
     "attending" | "declined" | ""
   >("");
@@ -70,28 +66,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   // استرجاع حالة RSVP المحفوظة
   // =========================================================
   useEffect(() => {
-    const savedQr = localStorage.getItem("guest_qr");
-
-    if (savedQr) {
-      try {
-        const data = JSON.parse(savedQr);
-
-        if (data.name && data.qr) {
-          setGuestName(data.name);
-
-          setRsvpState({
-            kind: "qr",
-            name: data.name,
-            qr: data.qr,
-          });
-        }
-      } catch {
-        localStorage.removeItem("guest_qr");
-      }
-
-      return;
-    }
-
     const savedDeclined = localStorage.getItem("guest_declined");
 
     if (savedDeclined) {
@@ -222,7 +196,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     ctx.shadowBlur = 10;
 
     ctx.fillText(
-      "طـارق & كادي",
+      "عبـداللّٰه & ريمـان",
       canvas.width / 2,
       canvas.height - 150
     );
@@ -260,7 +234,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       ) {
         await navigator.share({
           files: [file],
-          title: "طـارق & كادي",
+          title: "عبـداللّٰه & ريسـان",
         });
       } else {
         alert(
@@ -276,7 +250,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   // الاتصال
   // =========================================================
   const handlePhoneClick = () => {
-    window.location.href = "tel:0552049208";
+    window.location.href = "tel:0554129943";
   };
 
   // =========================================================
@@ -285,30 +259,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const openRSVP = () => {
     setShowRSVP(true);
 
-    // إذا كان عنده QR محفوظ
-    const savedQr = localStorage.getItem("guest_qr");
-
-    if (savedQr) {
-      try {
-        const data = JSON.parse(savedQr);
-
-        if (data.name && data.qr) {
-          setGuestName(data.name);
-
-          setRsvpState({
-            kind: "qr",
-            name: data.name,
-            qr: data.qr,
-          });
-
-          return;
-        }
-      } catch {
-        localStorage.removeItem("guest_qr");
-      }
-    }
-
-    // إذا كان معتذر سابقاً
     const savedDeclined =
       localStorage.getItem("guest_declined");
 
@@ -332,8 +282,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     }
 
     setGuestName("");
-    setPhone("");
-    setSelectedName("");
     setRsvpStatus("");
     setRsvpState({ kind: "form" });
   };
@@ -348,143 +296,33 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
     setRsvpState({ kind: "loading" });
 
-    const qr_token = crypto.randomUUID();
-
-    let guest = null;
-    let cleanPhone = "";
+    const finalName = guestName.trim();
 
     // =======================================================
-    // تأكيد الحضور
+    // Google Forms فقط
     // =======================================================
-    if (rsvpStatus === "attending") {
-      cleanPhone = phone.trim().replace(/\s/g, "");
+    try {
+      await fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLSc6mDOnpRZCnci1QI92eMhL6P-m51ZBokbkRwY2K-oxMec0Mw/formResponse",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            "entry.37487972": finalName,
 
-      const {
-        data: guests,
-        error: checkError,
-      } = await supabase
-        .from("rsvpsAhmad")
-        .select("*")
-        .eq("phone", cleanPhone);
-
-      if (checkError) {
-        setRsvpState({
-          kind: "error",
-          msg: "حدث خطأ، حاول مرة أخرى.",
-        });
-
-        return;
-      }
-
-      // الرقم موجود لأكثر من شخص
-      if (guests && guests.length > 1 && !selectedName) {
-        const availableGuests = guests.filter(
-          (g) => !g.qr_token
-        );
-
-        if (availableGuests.length === 0) {
-          setRsvpState({
-            kind: "error",
-            msg: "تم استخدام هذا الرقم مسبقًا.",
-          });
-
-          return;
+            "entry.1392749550":
+              rsvpStatus === "attending"
+                ? "تاكيد الحضور"
+                : "الاعتذار عن الحضور",
+          }),
         }
-
-        setRsvpState({
-          kind: "choose_name",
-          phone: cleanPhone,
-          names: availableGuests.map((g) => g.name),
-        });
-
-        return;
-      }
-
-      // الرقم غير موجود
-      if (!guests || guests.length === 0) {
-        setRsvpState({
-          kind: "error",
-          msg: "عذرًا، الرقم المدخل ليس من ضمن قائمة المدعوين.",
-        });
-
-        return;
-      }
-
-      guest = selectedName
-        ? guests.find((g) => g.name === selectedName)
-        : guests[0];
-
-      if (!guest) {
-        setRsvpState({
-          kind: "error",
-          msg: "تعذر العثور على الاسم.",
-        });
-
-        return;
-      }
-
-      // الاسم مستخدم مسبقاً
-      if (guest.qr_token) {
-        setRsvpState({
-          kind: "error",
-          msg: "تم تسجيل هذا الاسم مسبقًا.",
-        });
-
-        return;
-      }
-    }
-
-    // =======================================================
-    // الاسم النهائي
-    // =======================================================
-    const finalName = selectedName
-      ? selectedName
-      : guestName.trim();
-
-    let error;
-
-    // =======================================================
-    // حضور
-    // =======================================================
-    if (rsvpStatus === "attending") {
-      let query = supabase
-        .from("rsvpsAhmad")
-        .update({
-          name: finalName,
-          status: "attending",
-          qr_token,
-          scanned: false,
-        })
-        .eq("phone", cleanPhone);
-
-      if (selectedName) {
-        query = query.eq("name", selectedName);
-      }
-
-      const result = await query;
-
-      error = result.error;
-    }
-
-    // =======================================================
-    // اعتذار
-    // =======================================================
-    else {
-      const result = await supabase
-        .from("rsvpsAhmad")
-        .insert({
-          name: finalName,
-          status: "declined",
-        });
-
-      error = result.error;
-    }
-
-    // =======================================================
-    // خطأ Supabase
-    // =======================================================
-    if (error) {
-      console.log("Supabase error:", error);
+      );
+    } catch (error) {
+      console.log("Google Forms error:", error);
 
       setRsvpState({
         kind: "error",
@@ -495,52 +333,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     }
 
     // =======================================================
-    // Google Forms - الفورم الجديد
-    // =======================================================
-    try {
-      await fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSeuLeGI-2hAr4g_U6Co1tp6ZpSltJCgQMAxhgtCN07gwkJTkw/formResponse",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            "entry.86988323": finalName,
-
-            "entry.367131422":
-              rsvpStatus === "attending"
-                ? "تاكيد الحضور"
-                : "الاعتذار عن الحضور",
-          }),
-        }
-      );
-    } catch (error) {
-      console.log("Google Forms error:", error);
-    }
-
-    // =======================================================
-    // إنشاء QR للحضور
+    // حضور
     // =======================================================
     if (rsvpStatus === "attending") {
-      const qrUrl = `${window.location.origin}/scan/${qr_token}`;
-
-      localStorage.setItem(
-        "guest_qr",
-        JSON.stringify({
-          name: finalName,
-          qr: qrUrl,
-        })
-      );
-
-      localStorage.removeItem("guest_declined");
-
       setRsvpState({
-        kind: "qr",
+        kind: "success",
         name: finalName,
-        qr: qrUrl,
       });
 
       return;
@@ -556,82 +354,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       })
     );
 
-    localStorage.removeItem("guest_qr");
-
     setRsvpState({
       kind: "declined",
       name: finalName,
-    });
-  };
-
-  // =========================================================
-  // اختيار الاسم إذا الرقم مرتبط بأكثر من مدعو
-  // =========================================================
-  const chooseGuestName = async (guestName: string) => {
-    setGuestName(guestName);
-    setSelectedName(guestName);
-    setRsvpState({ kind: "loading" });
-
-    const qr_token = crypto.randomUUID();
-
-    const {
-      error,
-    } = await supabase
-      .from("rsvpsAhmad")
-      .update({
-        status: "attending",
-        qr_token,
-        scanned: false,
-      })
-      .eq("phone", phone.trim().replace(/\s/g, ""))
-      .eq("name", guestName);
-
-    if (error) {
-      setRsvpState({
-        kind: "error",
-        msg: "حدث خطأ، حاول مرة أخرى.",
-      });
-
-      return;
-    }
-
-    // Google Forms - الفورم الجديد
-    try {
-      await fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSeuLeGI-2hAr4g_U6Co1tp6ZpSltJCgQMAxhgtCN07gwkJTkw/formResponse",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            "entry.86988323": guestName,
-            "entry.367131422": "تاكيد الحضور",
-          }),
-        }
-      );
-    } catch (error) {
-      console.log("Google Forms error:", error);
-    }
-
-    const qrUrl = `${window.location.origin}/scan/${qr_token}`;
-
-    localStorage.setItem(
-      "guest_qr",
-      JSON.stringify({
-        name: guestName,
-        qr: qrUrl,
-      })
-    );
-
-    localStorage.removeItem("guest_declined");
-
-    setRsvpState({
-      kind: "qr",
-      name: guestName,
-      qr: qrUrl,
     });
   };
 
@@ -652,7 +377,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       {showCamera && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
           <div className="relative w-full h-full max-w-[500px] aspect-[9/16] bg-black flex items-center justify-center overflow-hidden">
-            
+
             {/* زر الإغلاق */}
             <button
               onClick={closeCamera}
@@ -681,7 +406,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       }}
                       className="text-3xl font-bold"
                     >
-                      طـارق & كادي
+                      عبـداللّٰه & ريسـان
                     </p>
                   </div>
                 </div>
@@ -765,6 +490,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       ====================================================== */}
       {showRSVP && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
+
           {/* الخلفية */}
           <div
             className="absolute inset-0 bg-black/25 backdrop-blur-md"
@@ -779,6 +505,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               color: "#5F4F41",
             }}
           >
+
             {/* زخرفة الركن العلوي */}
             <div className="absolute top-3 right-4 text-xl opacity-60">
               ❈
@@ -789,76 +516,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </div>
 
             {/* =================================================
-                اختيار الاسم
+                نجاح تأكيد الحضور
             ================================================== */}
-            {rsvpState.kind === "choose_name" && (
-              <>
-                <div className="text-center mb-7">
-                  <h2
-                    className="text-2xl font-bold"
-                    style={{
-                      fontFamily:
-                        "'IranNastaliq', sans-serif",
-                    }}
-                  >
-                    اختر اسمك
-                  </h2>
+            {rsvpState.kind === "success" && (
+              <div className="text-center py-6">
 
-                  <p
-                    className="mt-2 text-sm"
-                    style={{
-                      fontFamily: "'Almarai', sans-serif",
-                    }}
-                  >
-                    يوجد أكثر من اسم مرتبط بهذا الرقم
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {rsvpState.names.map((name) => (
-                    <button
-                      key={name}
-                      onClick={() =>
-                        chooseGuestName(name)
-                      }
-                      className="w-full py-3 rounded-2xl border transition-all"
-                      style={{
-                        fontFamily:
-                          "'Almarai', sans-serif",
-                        background:
-                          "rgba(255,255,255,0.65)",
-                        color: "#5F4F41",
-                        borderColor:
-                          "rgba(95,79,65,0.25)",
-                      }}
-                    >
-                      {name}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setRsvpState({ kind: "form" })
-                  }
-                  className="w-full mt-4 py-2 text-sm"
-                  style={{
-                    fontFamily:
-                      "'Almarai', sans-serif",
-                    color: "#5F4F41",
-                  }}
-                >
-                  العودة
-                </button>
-              </>
-            )}
-
-            {/* =================================================
-                QR
-            ================================================== */}
-            {rsvpState.kind === "qr" && (
-              <div className="text-center py-2">
                 <div className="text-4xl mb-4">
                   ♡
                 </div>
@@ -874,77 +536,21 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 </h2>
 
                 <p
-                  className="text-sm mb-1"
+                  className="text-sm leading-8"
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
                   }}
                 >
                   أهلاً وسهلاً، {rsvpState.name}
-                </p>
-
-                <p
-                  className="text-xs mb-5 opacity-70"
-                  style={{
-                    fontFamily:
-                      "'Almarai', sans-serif",
-                  }}
-                >
-                  يرجى حفظ الباركود لأنه مطلوب عند الدخول
-                </p>
-
-                {/* QR */}
-                <div
-                  className="inline-flex p-3 rounded-2xl mb-4"
-                  style={{
-                    background: "#FFFFFF",
-                    border:
-                      "1.5px solid rgba(95,79,65,0.2)",
-                  }}
-                >
-                  <QRCodeCanvas
-                    value={rsvpState.qr}
-                    size={190}
-                    fgColor="#5F4F41"
-                    bgColor="#FFFFFF"
-                  />
-                </div>
-
-                {/* التحذير */}
-                <div
-                  className="rounded-2xl p-3 mb-2"
-                  style={{
-                    background:
-                      "rgba(239, 68, 68, 0.08)",
-                    border:
-                      "1px solid rgba(220, 38, 38, 0.5)",
-                  }}
-                >
-                  <p
-                    className="text-red-700 font-bold text-sm"
-                    style={{
-                      fontFamily:
-                        "'Almarai', sans-serif",
-                    }}
-                  >
-                    ⚠️ يرجى حفظ الباركود لأنه مطلوب عند الدخول
-                  </p>
-                </div>
-
-                <p
-                  className="text-xs opacity-60"
-                  style={{
-                    fontFamily:
-                      "'Almarai', sans-serif",
-                  }}
-                >
-                  الرجاء عدم مسح الباركود
+                  <br />
+                  سعداء بتأكيد حضوركم
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setShowRSVP(false)}
-                  className="w-full mt-6 py-3.5 rounded-2xl font-bold"
+                  className="w-full mt-7 py-3.5 rounded-2xl font-bold"
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
@@ -970,6 +576,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             ================================================== */}
             {rsvpState.kind === "declined" && (
               <div className="text-center py-6">
+
                 <Heart
                   className="mx-auto w-10 h-10 mb-4"
                   style={{
@@ -1030,6 +637,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             {rsvpState.kind === "error" && (
               <>
                 <div className="text-center mb-6">
+
                   <div className="text-3xl mb-3">
                     !
                   </div>
@@ -1078,6 +686,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             ================================================== */}
             {rsvpState.kind === "loading" && (
               <div className="text-center py-12">
+
                 <div
                   className="mx-auto w-10 h-10 rounded-full border-4 border-[#5F4F41]/20 border-t-[#5F4F41] animate-spin mb-5"
                 />
@@ -1101,6 +710,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               <>
                 {/* العنوان */}
                 <div className="text-center mb-7">
+
                   <h2
                     className="text-2xl font-bold"
                     style={{
@@ -1124,6 +734,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
                 {/* الاسم */}
                 <div className="mb-5">
+
                   <label
                     className="block text-right mb-2 text-sm font-bold"
                     style={{
@@ -1155,52 +766,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   />
                 </div>
 
-                {/* الرقم - يظهر فقط عند تأكيد الحضور */}
-                {rsvpStatus === "attending" && (
-                  <div className="mb-5">
-                    <label
-                      className="block text-right mb-2 text-sm font-bold"
-                      style={{
-                        fontFamily:
-                          "'Almarai', sans-serif",
-                      }}
-                    >
-                      الرقم الخاص بك
-                    </label>
-
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => {
-                        const value = e.target.value
-                          .replace(
-                            /[٠-٩]/g,
-                            (d) =>
-                              "٠١٢٣٤٥٦٧٨٩".indexOf(d).toString()
-                          )
-                          .replace(/\D/g, "")
-                          .slice(0, 10);
-
-                        setPhone(value);
-                      }}
-                      placeholder="05XXXXXXXX"
-                      className="w-full rounded-2xl px-4 py-3 text-right outline-none border"
-                      style={{
-                        fontFamily:
-                          "'Almarai', sans-serif",
-                        background:
-                          "rgba(255,255,255,0.65)",
-                        borderColor:
-                          "rgba(95,79,65,0.25)",
-                        color: "#5F4F41",
-                      }}
-                      dir="rtl"
-                    />
-                  </div>
-                )}
-
                 {/* خيارات الحضور */}
                 <div className="flex gap-3 mb-6">
+
                   <button
                     type="button"
                     onClick={() => {
@@ -1230,7 +798,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     type="button"
                     onClick={() => {
                       setRsvpStatus("declined");
-                      setPhone("");
                       setRsvpState({ kind: "form" });
                     }}
                     className="flex-1 py-3 rounded-2xl border transition-all flex items-center justify-center gap-1"
@@ -1260,9 +827,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   disabled={
                     !guestName.trim() ||
                     !rsvpStatus ||
-                    rsvpState.kind === "loading" ||
-                    (rsvpStatus === "attending" &&
-                      phone.length !== 10)
+                    rsvpState.kind === "loading"
                   }
                   className="w-full py-3.5 rounded-2xl font-bold transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{
@@ -1314,8 +879,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       {/* =====================================================
           الشريط السفلي الرئيسي
-          الترتيب الجديد:
-          تواصل - موسيقى - كاميرا - موقع - تأكيد الحضور
+          الترتيب:
+          تواصل | موسيقى | الكاميرا | الموقع | تأكيد الحضور
       ====================================================== */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md pointer-events-auto">
         <div
@@ -1326,6 +891,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               "0 10px 30px rgba(95, 79, 65, 0.2)",
           }}
         >
+
           {/* 1. تواصل */}
           <button
             onClick={handlePhoneClick}
@@ -1366,7 +932,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </span>
           </button>
 
-          {/* 3. الكاميرا - في المنتصف */}
+          {/* 3. الكاميرا - بالنص */}
           <button
             onClick={openCamera}
             className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
@@ -1385,7 +951,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           <button
             onClick={() => {
               window.location.href =
-                "https://www.google.com/maps/search/?api=1&query=قاعة+هدب+الرياض";
+                "https://maps.app.goo.gl/wME9accoybXmq5M6A?g_st=ic";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
@@ -1419,6 +985,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               تأكيد الحضور
             </span>
           </button>
+
         </div>
       </div>
     </>
