@@ -31,7 +31,7 @@ const Index = () => {
       const distance = targetPosition - startPosition;
 
       let startTime: number;
-      const duration = 30000; // 30 ثانية
+      const duration = 40000; // 30 ثانية
 
       const animation = () => {
         const elapsed = Date.now() - startTime;
@@ -154,11 +154,11 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg opacity-90 pb-2"
                 style={{ color: "#5F4F41" }}
               >
-                تتـــشرف
+                نتشرف بدعوتكم لحضور حفل زفاف
               </p>
 
               {/* أم طارق */}
-              <div
+            {/*   <div
                 className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2"
                 style={{ color: "#5F4F41" }}
               >
@@ -170,19 +170,19 @@ const Index = () => {
                 >
                   أم طـارق
                 </span>
-              </div>
+              </div> */}
 
               {/* السطر السادس */}
-              <p
+         {/*      <p
                 className="font-arabic text-sm sm:text-base pt-2"
                 style={{ color: "#5F4F41" }}
               >
                 بدعوتكم لحضور حفل زواج أبنها
               </p>
-
-              {/* مسافة */}
-              <div className="h-6"></div>
-
+{/* 
+              {/* مسافة {/* 
+          {/*    <div className="h-6"></div>
+*/}
               {/* طارق & كادي */}
               <div className="py-2 flex items-center justify-center gap-2">
 
@@ -194,7 +194,7 @@ const Index = () => {
                     color: "#5F4F41",
                   }}
                 >
-                  طـارق
+                  تهـاني
                 </span>
 
                 <span
@@ -216,7 +216,7 @@ const Index = () => {
                     color: "#5F4F41",
                   }}
                 >
-                  كادي
+                  يحـيى
                 </span>
 
               </div>
@@ -239,14 +239,14 @@ const Index = () => {
                 className="font-arabic text-sm font-semibold"
                 style={{ color: "#5F4F41" }}
               >
-                قاعـة هدب
+                قاعـة الرون
               </p>
 
               <p
                 className="font-arabic text-xs font-medium opacity-90"
                 style={{ color: "#5F4F41" }}
               >
-                الرياض
+                صبيا العدايا
               </p>
 
             </div>
@@ -287,7 +287,7 @@ const Index = () => {
                     className="font-display text-4xl font-extrabold tracking-tight"
                     style={{ color: "#5F4F41" }}
                   >
-                    25
+                    18
                   </div>
 
                   <div
@@ -301,7 +301,7 @@ const Index = () => {
                     className="font-display text-xs font-semibold opacity-80"
                     style={{ color: "#5F4F41" }}
                   >
-                    PM 7:30
+                    7 . 4 . 1448 هـ
                   </div>
 
                 </div>
@@ -404,7 +404,7 @@ const Index = () => {
                       color: "#5F4F41",
                     }}
                   >
-                    طـارق
+                    تهـاني
                   </span>
 
                   <span
@@ -426,7 +426,7 @@ const Index = () => {
                       color: "#5F4F41",
                     }}
                   >
-                    كادي
+                    يحـيى
                   </span>
 
                 </div>
