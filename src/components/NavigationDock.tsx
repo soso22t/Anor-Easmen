@@ -1314,6 +1314,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       {/* =====================================================
           الشريط السفلي الرئيسي
+          الترتيب الجديد:
+          تواصل - موسيقى - كاميرا - موقع - تأكيد الحضور
       ====================================================== */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md pointer-events-auto">
         <div
@@ -1364,10 +1366,10 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </span>
           </button>
 
-          {/* 3. القلب في المنتصف */}
+          {/* 3. الكاميرا - في المنتصف */}
           <button
-            onClick={() => {}}
-            className="flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
+            onClick={openCamera}
+            className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
           >
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
@@ -1375,13 +1377,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 background: "#5F4F41",
               }}
             >
-              <Heart
-                className="w-6 h-6"
-                style={{
-                  color: "#F5EFE7",
-                  fill: "#F5EFE7",
-                }}
-              />
+              <Camera className="w-6 h-6 text-white" />
             </div>
           </button>
 
@@ -1406,12 +1402,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </span>
           </button>
 
-          {/* 5. الكاميرا */}
+          {/* 5. تأكيد الحضور */}
           <button
-            onClick={openCamera}
+            onClick={openRSVP}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
-            <Camera
+            <Heart
               className="w-5 h-5"
               style={{ color: "#5F4F41" }}
             />
@@ -1420,7 +1416,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               className="font-arabic text-[11px] font-bold"
               style={{ color: "#5F4F41" }}
             >
-              الكاميرا
+              تأكيد الحضور
             </span>
           </button>
         </div>
