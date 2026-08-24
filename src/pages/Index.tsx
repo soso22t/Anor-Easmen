@@ -137,14 +137,14 @@ const Index = () => {
 
               {/* الثلاث سطور تحته */}
               <p
-                className="font-arabic text-sm sm:text-base pt-2"
+                className="font-arabic text-base sm:text-lg opacity-90 pb-2"
                 style={{ color: "#5F4F41" }}
               >
                 بمشاعر مليئة بالفرح والسعادة
               </p>
 
               <p
-                className="font-arabic text-sm sm:text-base"
+                className="font-arabic text-base sm:text-lg opacity-90 pb-2"
                 style={{ color: "#5F4F41" }}
               >
                 ولأن الفرحة لا تكتمل الا برؤيتكم
@@ -184,7 +184,7 @@ const Index = () => {
           {/*    <div className="h-6"></div>
 */}
               {/* طارق & كادي */}
-              <div className="py-2 flex items-center justify-center gap-2">
+              <div className="pt-8 pb-2 flex items-center justify-center gap-2">
 
                 <span
                   className="text-4xl sm:text-5xl"
@@ -298,7 +298,7 @@ const Index = () => {
                   </div>
 
                   <div
-                    className="font-display text-xs font-semibold opacity-80"
+                    className="font-arabic text-xs font-semibold opacity-80"
                     style={{ color: "#5F4F41" }}
                   >
                     7 . 4 . 1448 هـ
@@ -434,10 +434,13 @@ const Index = () => {
 
               {/* غيمة */}
               <Reveal delay={200}>
-                <div
-                  className="flex items-center justify-center gap-2 pt-0.5"
-                  style={{ color: "#5F4F41" }}
-                >
+  <div
+    className="flex items-center justify-center gap-2 pt-0.5"
+    style={{
+      transform: "translateY(100px)",
+      color: "#5F4F41",
+    }}
+  >
 
                   <Heart className="w-4 h-4 fill-current text-[#5F4F41]" />
 
