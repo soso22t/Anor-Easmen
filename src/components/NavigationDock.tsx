@@ -335,7 +335,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       form.method = "POST";
 
       form.action =
-        "https://docs.google.com/forms/d/e/1FAIpQLSc6mDOnpRZCnci1QI92eMhL6P-m51ZBokbkRwY2K-oxMec0Mw/formResponse";
+        "https://docs.google.com/forms/d/e/1FAIpQLSeuLeGI-2hAr4g_U6Co1tp6ZpSltJCgQMAxhgtCN07gwkJTkw/formResponse";
 
       form.target = "hidden_google_form";
 
@@ -346,7 +346,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.createElement("input");
 
       nameInput.type = "hidden";
-      nameInput.name = "entry.37487972";
+      nameInput.name = "entry.86988323";
       nameInput.value = finalName;
 
       // حالة الحضور
@@ -354,7 +354,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.createElement("input");
 
       statusInput.type = "hidden";
-      statusInput.name = "entry.1392749550";
+      statusInput.name = "entry.367131422";
 
       statusInput.value =
         rsvpStatus === "attending"
