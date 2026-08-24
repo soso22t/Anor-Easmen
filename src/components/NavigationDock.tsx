@@ -12,7 +12,6 @@ import {
   Check,
   Send,
 } from "lucide-react";
-import { QRCodeCanvas } from "qrcode.react";
 
 // 🎵 استيراد ملف الصوت
 import bgMusic from "@/assets/music.m4a";
@@ -62,30 +61,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         });
     }
   }, [active]);
-
-  // =========================================================
-  // استرجاع حالة الاعتذار المحفوظة
-  // =========================================================
-  useEffect(() => {
-    const savedDeclined = localStorage.getItem("guest_declined");
-
-    if (savedDeclined) {
-      try {
-        const data = JSON.parse(savedDeclined);
-
-        if (data.name) {
-          setGuestName(data.name);
-
-          setRsvpState({
-            kind: "declined",
-            name: data.name,
-          });
-        }
-      } catch {
-        localStorage.removeItem("guest_declined");
-      }
-    }
-  }, []);
 
   // =========================================================
   // تشغيل / إيقاف الموسيقى
@@ -193,7 +168,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       renderHeight
     );
 
-    // الاسم
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#FFFFFF";
@@ -271,15 +245,35 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const openRSVP = () => {
     setShowRSVP(true);
 
-    const savedDeclined =
-      localStorage.getItem("guest_declined");
+    // استرجاع الرد السابق من نفس الجهاز
+    const savedRSVP =
+      localStorage.getItem("guest_rsvp");
 
-    if (savedDeclined) {
+    if (savedRSVP) {
       try {
-        const data = JSON.parse(savedDeclined);
+        const data = JSON.parse(savedRSVP);
 
-        if (data.name) {
+        if (
+          data.name &&
+          data.status === "attending"
+        ) {
           setGuestName(data.name);
+          setRsvpStatus("attending");
+
+          setRsvpState({
+            kind: "success",
+            name: data.name,
+          });
+
+          return;
+        }
+
+        if (
+          data.name &&
+          data.status === "declined"
+        ) {
+          setGuestName(data.name);
+          setRsvpStatus("declined");
 
           setRsvpState({
             kind: "declined",
@@ -289,13 +283,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           return;
         }
       } catch {
-        localStorage.removeItem("guest_declined");
+        localStorage.removeItem("guest_rsvp");
       }
     }
 
+    // لا يوجد رد سابق
     setGuestName("");
     setRsvpStatus("");
-    setRsvpState({ kind: "form" });
+    setRsvpState({
+      kind: "form",
+    });
   };
 
   // =========================================================
@@ -313,7 +310,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     });
 
     try {
+      // =====================================================
       // إنشاء iframe مخفي
+      // =====================================================
       let iframe = document.getElementById(
         "hidden_google_form"
       ) as HTMLIFrameElement | null;
@@ -329,8 +328,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.body.appendChild(iframe);
       }
 
+      // =====================================================
       // إنشاء form مخفي
-      const form = document.createElement("form");
+      // =====================================================
+      const form =
+        document.createElement("form");
 
       form.method = "POST";
 
@@ -366,13 +368,26 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       document.body.appendChild(form);
 
+      // =====================================================
       // إرسال إلى Google Forms
+      // =====================================================
       form.submit();
 
       // إزالة الفورم بعد الإرسال
       setTimeout(() => {
         form.remove();
       }, 1000);
+
+      // =====================================================
+      // حفظ الرد على الجهاز
+      // =====================================================
+      localStorage.setItem(
+        "guest_rsvp",
+        JSON.stringify({
+          name: finalName,
+          status: rsvpStatus,
+        })
+      );
 
       // =====================================================
       // حضور
@@ -389,13 +404,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       // =====================================================
       // اعتذار
       // =====================================================
-      localStorage.setItem(
-        "guest_declined",
-        JSON.stringify({
-          name: finalName,
-        })
-      );
-
       setRsvpState({
         kind: "declined",
         name: finalName,
