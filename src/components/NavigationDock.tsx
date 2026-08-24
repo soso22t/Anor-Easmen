@@ -495,11 +495,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     }
 
     // =======================================================
-    // Google Forms
+    // Google Forms - الفورم الجديد
     // =======================================================
     try {
       await fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSc6mDOnpRZCnci1QI92eMhL6P-m51ZBokbkRwY2K-oxMec0Mw/formResponse",
+        "https://docs.google.com/forms/d/e/1FAIpQLSeuLeGI-2hAr4g_U6Co1tp6ZpSltJCgQMAxhgtCN07gwkJTkw/formResponse",
         {
           method: "POST",
           mode: "no-cors",
@@ -508,9 +508,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               "application/x-www-form-urlencoded",
           },
           body: new URLSearchParams({
-            "entry.37487972": finalName,
+            "entry.86988323": finalName,
 
-            "entry.1392749550":
+            "entry.367131422":
               rsvpStatus === "attending"
                 ? "تاكيد الحضور"
                 : "الاعتذار عن الحضور",
@@ -595,10 +595,10 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       return;
     }
 
-    // Google Forms
+    // Google Forms - الفورم الجديد
     try {
       await fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSc6mDOnpRZCnci1QI92eMhL6P-m51ZBokbkRwY2K-oxMec0Mw/formResponse",
+        "https://docs.google.com/forms/d/e/1FAIpQLSeuLeGI-2hAr4g_U6Co1tp6ZpSltJCgQMAxhgtCN07gwkJTkw/formResponse",
         {
           method: "POST",
           mode: "no-cors",
@@ -607,8 +607,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               "application/x-www-form-urlencoded",
           },
           body: new URLSearchParams({
-            "entry.37487972": guestName,
-            "entry.1392749550": "تاكيد الحضور",
+            "entry.86988323": guestName,
+            "entry.367131422": "تاكيد الحضور",
           }),
         }
       );
@@ -1365,34 +1365,34 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           </button>
 
           {/* 3. القلب في المنتصف */}
-<button
-  onClick={() => {}}
-  className="flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
->
-  <div
-    className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
-    style={{
-      background: "#5F4F41",
-    }}
-  >
-    <Heart
-      className="w-6 h-6"
-      style={{
-        color: "#F5EFE7",
-        fill: "#F5EFE7",
-      }}
-    />
-  </div>
-</button>
+          <button
+            onClick={() => {}}
+            className="flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
+          >
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
+              style={{
+                background: "#5F4F41",
+              }}
+            >
+              <Heart
+                className="w-6 h-6"
+                style={{
+                  color: "#F5EFE7",
+                  fill: "#F5EFE7",
+                }}
+              />
+            </div>
+          </button>
 
           {/* 4. الموقع */}
-         <button
-  onClick={() => {
-    window.location.href =
-      "https://www.google.com/maps/search/?api=1&query=قاعة+هدب+الرياض";
-  }}
-  className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
->
+          <button
+            onClick={() => {
+              window.location.href =
+                "https://www.google.com/maps/search/?api=1&query=قاعة+هدب+الرياض";
+            }}
+            className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
+          >
             <MapPin
               className="w-5 h-5"
               style={{ color: "#5F4F41" }}
