@@ -1117,7 +1117,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           <button
             onClick={() => {
               window.location.href =
-                "https://maps.app.goo.gl/wME9accoybXmq5M6A?g_st=ic";
+  "https://www.google.com/maps/search/?api=1&query=قاعة+الرون+العدايا";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
