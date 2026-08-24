@@ -32,6 +32,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
 
+  // ===== نافذة التواصل =====
+  const [showContact, setShowContact] = useState(false);
+
   // ===== RSVP =====
   const [showRSVP, setShowRSVP] = useState(false);
   const [guestName, setGuestName] = useState("");
@@ -217,7 +220,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       ) {
         await navigator.share({
           files: [file],
-          title: "عبـداللّٰه & ريسـان",
+          title: "تهـاني & يحـيى",
         });
       } else {
         alert(
@@ -233,10 +236,17 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   };
 
   // =========================================================
+  // فتح نافذة التواصل
+  // =========================================================
+  const openContact = () => {
+    setShowContact(true);
+  };
+
+  // =========================================================
   // الاتصال
   // =========================================================
   const handlePhoneClick = () => {
-    window.location.href = "tel:0554129943";
+    window.location.href = "tel:0509555821";
   };
 
   // =========================================================
@@ -245,7 +255,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const openRSVP = () => {
     setShowRSVP(true);
 
-    // استرجاع الرد السابق من نفس الجهاز
     const savedRSVP =
       localStorage.getItem("guest_rsvp");
 
@@ -287,7 +296,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       }
     }
 
-    // لا يوجد رد سابق
     setGuestName("");
     setRsvpStatus("");
     setRsvpState({
@@ -310,9 +318,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     });
 
     try {
-      // =====================================================
-      // إنشاء iframe مخفي
-      // =====================================================
       let iframe = document.getElementById(
         "hidden_google_form"
       ) as HTMLIFrameElement | null;
@@ -328,9 +333,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.body.appendChild(iframe);
       }
 
-      // =====================================================
-      // إنشاء form مخفي
-      // =====================================================
       const form =
         document.createElement("form");
 
@@ -343,7 +345,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       form.style.display = "none";
 
-      // الاسم
       const nameInput =
         document.createElement("input");
 
@@ -351,7 +352,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       nameInput.name = "entry.86988323";
       nameInput.value = finalName;
 
-      // حالة الحضور
       const statusInput =
         document.createElement("input");
 
@@ -368,19 +368,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       document.body.appendChild(form);
 
-      // =====================================================
-      // إرسال إلى Google Forms
-      // =====================================================
       form.submit();
 
-      // إزالة الفورم بعد الإرسال
       setTimeout(() => {
         form.remove();
       }, 1000);
 
-      // =====================================================
-      // حفظ الرد على الجهاز
-      // =====================================================
       localStorage.setItem(
         "guest_rsvp",
         JSON.stringify({
@@ -389,9 +382,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         })
       );
 
-      // =====================================================
-      // حضور
-      // =====================================================
       if (rsvpStatus === "attending") {
         setRsvpState({
           kind: "success",
@@ -401,9 +391,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         return;
       }
 
-      // =====================================================
-      // اعتذار
-      // =====================================================
       setRsvpState({
         kind: "declined",
         name: finalName,
@@ -445,7 +432,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
           <div className="relative w-full h-full max-w-[500px] aspect-[9/16] bg-black flex items-center justify-center overflow-hidden">
 
-            {/* زر الإغلاق */}
             <button
               onClick={closeCamera}
               className="absolute top-6 right-6 z-30 p-2.5 rounded-full bg-black/40 text-white border border-white/20 backdrop-blur-md cursor-pointer"
@@ -455,7 +441,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
             {!capturedImage ? (
               <>
-                {/* الكاميرا الخلفية */}
                 <video
                   ref={videoRef}
                   autoPlay
@@ -463,7 +448,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   className="w-full h-full object-cover scale-100"
                 />
 
-                {/* النصوص */}
                 <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-6 text-center bg-gradient-to-t from-black/80 via-black/25 to-transparent">
                   <div className="pb-16 flex flex-col items-center gap-1.5 text-white drop-shadow-2xl">
                     <p
@@ -473,12 +457,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       }}
                       className="text-3xl font-bold"
                     >
-                      عبـداللّٰه & ريسـان
+                      تهـاني & يحـيى
                     </p>
                   </div>
                 </div>
 
-                {/* زر التقاط الصورة */}
                 <div className="absolute bottom-6 z-20">
                   <button
                     onClick={capturePhoto}
@@ -507,7 +490,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   >
                     <div className="w-full flex items-center justify-center gap-3">
 
-                      {/* حفظ */}
                       <a
                         href={capturedImage}
                         download="mohammed-ahood.png"
@@ -521,7 +503,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         حفظ
                       </a>
 
-                      {/* إعادة */}
                       <button
                         onClick={() =>
                           setCapturedImage(null)
@@ -537,7 +518,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       </button>
                     </div>
 
-                    {/* مشاركة */}
                     <button
                       onClick={handleShare}
                       className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-arabic text-sm font-bold shadow-lg transition-all active:scale-95 cursor-pointer"
@@ -558,22 +538,22 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       )}
 
       {/* =====================================================
-          نافذة تأكيد الحضور
+          نافذة التواصل
       ====================================================== */}
-      {showRSVP && (
+      {showContact && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
 
           {/* الخلفية */}
           <div
             className="absolute inset-0 bg-black/25 backdrop-blur-md"
             onClick={() =>
-              setShowRSVP(false)
+              setShowContact(false)
             }
           />
 
           {/* المربع */}
           <div
-            className="relative w-full max-w-[380px] max-h-[90vh] overflow-y-auto rounded-[32px] px-7 py-8 shadow-2xl border border-white/30"
+            className="relative w-full max-w-[380px] rounded-[32px] px-7 py-8 shadow-2xl border border-white/30"
             style={{
               background:
                 "rgba(245, 239, 231, 0.96)",
@@ -590,9 +570,124 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               ❈
             </div>
 
-            {/* =================================================
-                نجاح تأكيد الحضور
-            ================================================== */}
+            {/* المحتوى */}
+            <div className="text-center py-5">
+
+              <Phone
+                className="mx-auto w-10 h-10 mb-4"
+                style={{
+                  color: "#5F4F41",
+                }}
+              />
+
+              <h2
+                className="text-2xl font-bold mb-3"
+                style={{
+                  fontFamily:
+                    "'IranNastaliq', sans-serif",
+                }}
+              >
+                تواصل معنا
+              </h2>
+
+              <p
+                className="text-sm leading-8 mb-2"
+                style={{
+                  fontFamily:
+                    "'Almarai', sans-serif",
+                }}
+              >
+                يسعدنا تواصلكم معنا
+              </p>
+
+              <p
+                className="text-lg font-bold mb-6"
+                dir="ltr"
+                style={{
+                  fontFamily:
+                    "'Almarai', sans-serif",
+                }}
+              >
+ 0509555821
+              </p>
+
+              {/* زر الاتصال البني */}
+              <button
+                type="button"
+                onClick={handlePhoneClick}
+                className="w-full py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-all"
+                style={{
+                  fontFamily:
+                    "'Almarai', sans-serif",
+                  background: "#5F4F41",
+                  color: "#FFFFFF",
+                }}
+              >
+                <Phone className="w-4 h-4" />
+                اتصال
+              </button>
+
+              {/* إلغاء */}
+              <button
+                type="button"
+                onClick={() =>
+                  setShowContact(false)
+                }
+                className="w-full mt-3 py-2 text-sm"
+                style={{
+                  fontFamily:
+                    "'Almarai', sans-serif",
+                  color: "#5F4F41",
+                }}
+              >
+                إلغاء
+              </button>
+
+            </div>
+
+            {/* زخارف سفلية */}
+            <div className="absolute bottom-3 right-4 text-xl opacity-60">
+              ❈
+            </div>
+
+            <div className="absolute bottom-3 left-4 text-xl opacity-60">
+              ❈
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          نافذة تأكيد الحضور
+      ====================================================== */}
+      {showRSVP && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
+
+          <div
+            className="absolute inset-0 bg-black/25 backdrop-blur-md"
+            onClick={() =>
+              setShowRSVP(false)
+            }
+          />
+
+          <div
+            className="relative w-full max-w-[380px] max-h-[90vh] overflow-y-auto rounded-[32px] px-7 py-8 shadow-2xl border border-white/30"
+            style={{
+              background:
+                "rgba(245, 239, 231, 0.96)",
+              color: "#5F4F41",
+            }}
+          >
+
+            <div className="absolute top-3 right-4 text-xl opacity-60">
+              ❈
+            </div>
+
+            <div className="absolute top-3 left-4 text-xl opacity-60">
+              ❈
+            </div>
+
             {rsvpState.kind === "success" && (
               <div className="text-center py-6">
 
@@ -648,9 +743,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               </div>
             )}
 
-            {/* =================================================
-                الاعتذار
-            ================================================== */}
             {rsvpState.kind === "declined" && (
               <div className="text-center py-6">
 
@@ -699,20 +791,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 >
                   العودة إلى الدعوة
                 </button>
-
-                <div className="absolute bottom-3 right-4 text-xl opacity-60">
-                  ❈
-                </div>
-
-                <div className="absolute bottom-3 left-4 text-xl opacity-60">
-                  ❈
-                </div>
               </div>
             )}
 
-            {/* =================================================
-                خطأ
-            ================================================== */}
             {rsvpState.kind === "error" && (
               <>
                 <div className="text-center mb-6">
@@ -762,9 +843,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               </>
             )}
 
-            {/* =================================================
-                تحميل
-            ================================================== */}
             {rsvpState.kind === "loading" && (
               <div className="text-center py-12">
 
@@ -784,12 +862,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               </div>
             )}
 
-            {/* =================================================
-                النموذج
-            ================================================== */}
             {rsvpState.kind === "form" && (
               <>
-                {/* العنوان */}
                 <div className="text-center mb-7">
 
                   <h2
@@ -813,7 +887,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   </p>
                 </div>
 
-                {/* الاسم */}
                 <div className="mb-5">
 
                   <label
@@ -847,10 +920,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   />
                 </div>
 
-                {/* خيارات الحضور */}
                 <div className="flex gap-3 mb-6">
 
-                  {/* تأكيد الحضور */}
                   <button
                     type="button"
                     onClick={() => {
@@ -879,7 +950,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     تأكيد الحضور
                   </button>
 
-                  {/* الاعتذار */}
                   <button
                     type="button"
                     onClick={() => {
@@ -909,7 +979,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   </button>
                 </div>
 
-                {/* إرسال */}
                 <button
                   type="button"
                   onClick={submitRSVP}
@@ -936,7 +1005,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   )}
                 </button>
 
-                {/* إلغاء */}
                 <button
                   type="button"
                   onClick={() =>
@@ -954,7 +1022,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               </>
             )}
 
-            {/* زخارف */}
             <div className="absolute bottom-3 right-4 text-xl opacity-60">
               ❈
             </div>
@@ -969,8 +1036,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       {/* =====================================================
           الشريط السفلي
-          الترتيب:
-          تواصل | موسيقى | الكاميرا | الموقع | تأكيد الحضور
       ====================================================== */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md pointer-events-auto">
 
@@ -986,7 +1051,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
           {/* 1. تواصل */}
           <button
-            onClick={handlePhoneClick}
+            onClick={openContact}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
             <Phone
@@ -1032,7 +1097,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             </span>
           </button>
 
-          {/* 3. الكاميرا - بالنص */}
+          {/* 3. الكاميرا */}
           <button
             onClick={openCamera}
             className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
