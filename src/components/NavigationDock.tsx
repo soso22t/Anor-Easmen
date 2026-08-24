@@ -39,6 +39,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const [rsvpStatus, setRsvpStatus] = useState<
     "attending" | "declined" | ""
   >("");
+
   const [rsvpState, setRsvpState] = useState<RSVPState>({
     kind: "form",
   });
@@ -63,7 +64,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   }, [active]);
 
   // =========================================================
-  // استرجاع حالة RSVP المحفوظة
+  // استرجاع حالة الاعتذار المحفوظة
   // =========================================================
   useEffect(() => {
     const savedDeclined = localStorage.getItem("guest_declined");
@@ -111,12 +112,13 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       setShowCamera(true);
       setCapturedImage(null);
 
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: { ideal: "environment" },
-        },
-        audio: false,
-      });
+      const mediaStream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: "environment" },
+          },
+          audio: false,
+        });
 
       setStream(mediaStream);
 
@@ -176,7 +178,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     }
 
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
 
     ctx.drawImage(
       video,
@@ -230,7 +237,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       if (
         navigator.share &&
         navigator.canShare &&
-        navigator.canShare({ files: [file] })
+        navigator.canShare({
+          files: [file],
+        })
       ) {
         await navigator.share({
           files: [file],
@@ -242,7 +251,10 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         );
       }
     } catch (error) {
-      console.log("إلغاء المشاركة أو خطأ:", error);
+      console.log(
+        "إلغاء المشاركة أو خطأ:",
+        error
+      );
     }
   };
 
@@ -287,81 +299,125 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   };
 
   // =========================================================
-  // إرسال تأكيد الحضور
+  // إرسال RSVP إلى Google Forms فقط
   // =========================================================
   const submitRSVP = async () => {
     if (!guestName.trim() || !rsvpStatus) {
       return;
     }
 
-    setRsvpState({ kind: "loading" });
-
     const finalName = guestName.trim();
 
-    // =======================================================
-    // Google Forms فقط
-    // =======================================================
-    try {
-      await fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSc6mDOnpRZCnci1QI92eMhL6P-m51ZBokbkRwY2K-oxMec0Mw/formResponse",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            "entry.37487972": finalName,
+    setRsvpState({
+      kind: "loading",
+    });
 
-            "entry.1392749550":
-              rsvpStatus === "attending"
-                ? "تاكيد الحضور"
-                : "الاعتذار عن الحضور",
-          }),
-        }
+    try {
+      // إنشاء iframe مخفي
+      let iframe = document.getElementById(
+        "hidden_google_form"
+      ) as HTMLIFrameElement | null;
+
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+
+        iframe.name = "hidden_google_form";
+        iframe.id = "hidden_google_form";
+
+        iframe.style.display = "none";
+
+        document.body.appendChild(iframe);
+      }
+
+      // إنشاء form مخفي
+      const form = document.createElement("form");
+
+      form.method = "POST";
+
+      form.action =
+        "https://docs.google.com/forms/d/e/1FAIpQLSc6mDOnpRZCnci1QI92eMhL6P-m51ZBokbkRwY2K-oxMec0Mw/formResponse";
+
+      form.target = "hidden_google_form";
+
+      form.style.display = "none";
+
+      // الاسم
+      const nameInput =
+        document.createElement("input");
+
+      nameInput.type = "hidden";
+      nameInput.name = "entry.37487972";
+      nameInput.value = finalName;
+
+      // حالة الحضور
+      const statusInput =
+        document.createElement("input");
+
+      statusInput.type = "hidden";
+      statusInput.name = "entry.1392749550";
+
+      statusInput.value =
+        rsvpStatus === "attending"
+          ? "تاكيد الحضور"
+          : "الاعتذار عن الحضور";
+
+      form.appendChild(nameInput);
+      form.appendChild(statusInput);
+
+      document.body.appendChild(form);
+
+      // إرسال إلى Google Forms
+      form.submit();
+
+      // إزالة الفورم بعد الإرسال
+      setTimeout(() => {
+        form.remove();
+      }, 1000);
+
+      // =====================================================
+      // حضور
+      // =====================================================
+      if (rsvpStatus === "attending") {
+        setRsvpState({
+          kind: "success",
+          name: finalName,
+        });
+
+        return;
+      }
+
+      // =====================================================
+      // اعتذار
+      // =====================================================
+      localStorage.setItem(
+        "guest_declined",
+        JSON.stringify({
+          name: finalName,
+        })
       );
+
+      setRsvpState({
+        kind: "declined",
+        name: finalName,
+      });
     } catch (error) {
-      console.log("Google Forms error:", error);
+      console.log(
+        "Google Forms error:",
+        error
+      );
 
       setRsvpState({
         kind: "error",
-        msg: "حدث خطأ، حاول مرة أخرى.",
+        msg: "حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى.",
       });
-
-      return;
     }
-
-    // =======================================================
-    // حضور
-    // =======================================================
-    if (rsvpStatus === "attending") {
-      setRsvpState({
-        kind: "success",
-        name: finalName,
-      });
-
-      return;
-    }
-
-    // =======================================================
-    // الاعتذار
-    // =======================================================
-    localStorage.setItem(
-      "guest_declined",
-      JSON.stringify({
-        name: finalName,
-      })
-    );
-
-    setRsvpState({
-      kind: "declined",
-      name: finalName,
-    });
   };
 
   return (
     <>
+      {/* =====================================================
+          الصوت
+      ====================================================== */}
       <audio
         ref={audioRef}
         loop
@@ -369,7 +425,10 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         preload="auto"
       />
 
-      <canvas ref={canvasRef} className="hidden" />
+      <canvas
+        ref={canvasRef}
+        className="hidden"
+      />
 
       {/* =====================================================
           شاشة الكاميرا والفلتر
@@ -423,6 +482,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               </>
             ) : (
               <div className="relative w-full h-full flex flex-col items-center justify-center">
+
                 <img
                   src={capturedImage}
                   alt="الصورة الملتقطة"
@@ -438,6 +498,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     }}
                   >
                     <div className="w-full flex items-center justify-center gap-3">
+
+                      {/* حفظ */}
                       <a
                         href={capturedImage}
                         download="mohammed-ahood.png"
@@ -451,6 +513,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         حفظ
                       </a>
 
+                      {/* إعادة */}
                       <button
                         onClick={() =>
                           setCapturedImage(null)
@@ -466,6 +529,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       </button>
                     </div>
 
+                    {/* مشاركة */}
                     <button
                       onClick={handleShare}
                       className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-arabic text-sm font-bold shadow-lg transition-all active:scale-95 cursor-pointer"
@@ -494,14 +558,17 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           {/* الخلفية */}
           <div
             className="absolute inset-0 bg-black/25 backdrop-blur-md"
-            onClick={() => setShowRSVP(false)}
+            onClick={() =>
+              setShowRSVP(false)
+            }
           />
 
           {/* المربع */}
           <div
             className="relative w-full max-w-[380px] max-h-[90vh] overflow-y-auto rounded-[32px] px-7 py-8 shadow-2xl border border-white/30"
             style={{
-              background: "rgba(245, 239, 231, 0.96)",
+              background:
+                "rgba(245, 239, 231, 0.96)",
               color: "#5F4F41",
             }}
           >
@@ -549,7 +616,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
                 <button
                   type="button"
-                  onClick={() => setShowRSVP(false)}
+                  onClick={() =>
+                    setShowRSVP(false)
+                  }
                   className="w-full mt-7 py-3.5 rounded-2xl font-bold"
                   style={{
                     fontFamily:
@@ -609,7 +678,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
                 <button
                   type="button"
-                  onClick={() => setShowRSVP(false)}
+                  onClick={() =>
+                    setShowRSVP(false)
+                  }
                   className="w-full mt-7 py-3.5 rounded-2xl font-bold"
                   style={{
                     fontFamily:
@@ -666,7 +737,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 <button
                   type="button"
                   onClick={() =>
-                    setRsvpState({ kind: "form" })
+                    setRsvpState({
+                      kind: "form",
+                    })
                   }
                   className="w-full py-3.5 rounded-2xl font-bold"
                   style={{
@@ -769,11 +842,14 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 {/* خيارات الحضور */}
                 <div className="flex gap-3 mb-6">
 
+                  {/* تأكيد الحضور */}
                   <button
                     type="button"
                     onClick={() => {
                       setRsvpStatus("attending");
-                      setRsvpState({ kind: "form" });
+                      setRsvpState({
+                        kind: "form",
+                      });
                     }}
                     className="flex-1 py-3 rounded-2xl border transition-all flex items-center justify-center gap-1"
                     style={{
@@ -787,18 +863,22 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         rsvpStatus === "attending"
                           ? "#FFFFFF"
                           : "#5F4F41",
-                      borderColor: "#5F4F41",
+                      borderColor:
+                        "#5F4F41",
                     }}
                   >
                     <Check className="w-4 h-4" />
                     تأكيد الحضور
                   </button>
 
+                  {/* الاعتذار */}
                   <button
                     type="button"
                     onClick={() => {
                       setRsvpStatus("declined");
-                      setRsvpState({ kind: "form" });
+                      setRsvpState({
+                        kind: "form",
+                      });
                     }}
                     className="flex-1 py-3 rounded-2xl border transition-all flex items-center justify-center gap-1"
                     style={{
@@ -812,7 +892,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         rsvpStatus === "declined"
                           ? "#FFFFFF"
                           : "#5F4F41",
-                      borderColor: "#5F4F41",
+                      borderColor:
+                        "#5F4F41",
                     }}
                   >
                     <X className="w-4 h-4" />
@@ -847,7 +928,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   )}
                 </button>
 
-                {/* إغلاق */}
+                {/* إلغاء */}
                 <button
                   type="button"
                   onClick={() =>
@@ -873,20 +954,23 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             <div className="absolute bottom-3 left-4 text-xl opacity-60">
               ❈
             </div>
+
           </div>
         </div>
       )}
 
       {/* =====================================================
-          الشريط السفلي الرئيسي
+          الشريط السفلي
           الترتيب:
           تواصل | موسيقى | الكاميرا | الموقع | تأكيد الحضور
       ====================================================== */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md pointer-events-auto">
+
         <div
           className="w-full px-3 py-2.5 rounded-3xl border border-white/50 shadow-2xl flex items-center justify-around backdrop-blur-md"
           style={{
-            background: "rgba(255, 255, 255, 0.45)",
+            background:
+              "rgba(255, 255, 255, 0.45)",
             boxShadow:
               "0 10px 30px rgba(95, 79, 65, 0.2)",
           }}
@@ -899,12 +983,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           >
             <Phone
               className="w-5 h-5"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             >
               تواصل
             </span>
@@ -921,12 +1009,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   ? "opacity-100 animate-pulse"
                   : "opacity-50"
               }`}
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             >
               موسيقى
             </span>
@@ -940,7 +1032,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             <div
               className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
               style={{
-                background: "#5F4F41",
+                background:
+                  "#5F4F41",
               }}
             >
               <Camera className="w-6 h-6 text-white" />
@@ -957,12 +1050,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           >
             <MapPin
               className="w-5 h-5"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             >
               الموقع
             </span>
@@ -975,12 +1072,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           >
             <Heart
               className="w-5 h-5"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
-              style={{ color: "#5F4F41" }}
+              style={{
+                color: "#5F4F41",
+              }}
             >
               تأكيد الحضور
             </span>
