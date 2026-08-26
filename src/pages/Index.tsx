@@ -154,8 +154,17 @@ const Index = () => {
                 </span>
               </div>
 
-              {/* طيف */}              {/* طيف */}
-              <div className="pt-8 pb-2 flex flex-col items-center justify-center gap-2">
+              {/* طيف */}              <div className="pt-8 pb-2 flex flex-col items-center justify-center gap-2">
+
+                {/* السطر فوق الاسم */}
+                <p
+                  className="font-arabic text-base sm:text-lg opacity-90"
+                  style={{ color: "#5F4F41" }}
+                >
+                  بدعوتكم لحضور حفل زفاف ابنتها
+                </p>
+
+                {/* طيف */}
                 <span
                   className="text-4xl sm:text-5xl"
                   style={{
@@ -166,17 +175,10 @@ const Index = () => {
                   طيف
                 </span>
 
-                {/* السطر الجديد */}
-                <p
-                  className="font-arabic text-base sm:text-lg opacity-90"
-                  style={{ color: "#5F4F41" }}
-                >
-                  بدعوتكم لحضور حفل زفاف ابنتها
-                </p>
               </div>
             </div>
 
-            {/* قسم الموقع */}
+ {/* قسم الموقع */}
             <div id="location" className="text-center space-y-0.5 py-1">
               <h3
                 className="font-arabic text-lg sm:text-xl font-bold"
@@ -189,14 +191,14 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg font-semibold"
                 style={{ color: "#5F4F41" }}
               >
-                قاعـة الرون
+                قاعـة المناخ للمناسبات
               </p>
 
               <p
                 className="font-arabic text-sm sm:text-base font-medium opacity-90"
                 style={{ color: "#5F4F41" }}
               >
-                صبيا العدايا
+                تبوك
               </p>
             </div>
 
