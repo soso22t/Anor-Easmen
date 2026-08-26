@@ -154,11 +154,11 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg opacity-90 pb-2"
                 style={{ color: "#5F4F41" }}
               >
-                نتشرف بدعوتكم لحضور حفل زفاف
+                تتـــشرف
               </p>
 
               {/* أم طارق */}
-            {/*   <div
+               <div
                 className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2"
                 style={{ color: "#5F4F41" }}
               >
@@ -168,9 +168,9 @@ const Index = () => {
                       "'Almarai', sans-serif",
                   }}
                 >
-                  أم طـارق
+                  أم عـادل وبنـاتهـا
                 </span>
-              </div> */}
+              </div> 
 
               {/* السطر السادس */}
          {/*      <p
@@ -194,10 +194,10 @@ const Index = () => {
                     color: "#5F4F41",
                   }}
                 >
-                  تهـاني
+                  طيف
                 </span>
 
-                <span
+                {/* <span
                   className="text-2xl"
                   style={{
                     fontFamily:
@@ -219,7 +219,7 @@ const Index = () => {
                   يحـيى
                 </span>
 
-              </div>
+              </div> */}
             </div>
 
             {/* قسم الموقع */}
@@ -268,7 +268,7 @@ const Index = () => {
                     color: "#FFFFFF",
                   }}
                 >
-                  <span>الجمعة</span>
+                  <span>لجمعة</span>
 
                   <span className="text-sm font-extrabold">
                     سبتمبر
@@ -402,10 +402,10 @@ const Index = () => {
                       color: "#5F4F41",
                     }}
                   >
-                    تهـاني
+                    طيف
                   </span>
 
-                  <span
+                  {/*  <span
                     className="text-xl"
                     style={{
                       fontFamily:
@@ -425,9 +425,9 @@ const Index = () => {
                     }}
                   >
                     يحـيى
-                  </span>
+                  </span> */}
 
-                </div>
+                </div> 
               </Reveal>
 
               {/* غيمة */}
