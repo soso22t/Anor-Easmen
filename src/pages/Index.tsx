@@ -23,59 +23,53 @@ const Index = () => {
   // =========================================================
   useEffect(() => {
     if (opened) {
-      const startPosition = window.pageYOffset;
-      const targetPosition =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
+      let animationFrameId: number;
+      let timerId: NodeJS.Timeout;
 
-      const distance = targetPosition - startPosition;
+      timerId = setTimeout(() => {
+        const startPosition = window.pageYOffset;
+        const targetPosition =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const distance = targetPosition - startPosition;
+        const duration = 40000; // 40 ثانية
+        const startTime = Date.now();
 
-      let startTime: number;
-      const duration = 40000; // 30 ثانية
+        const animation = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const run = startPosition + distance * progress;
 
-      const animation = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(
-          elapsed / duration,
-          1
-        );
+          window.scrollTo({
+            top: run,
+            behavior: "instant",
+          });
 
-        const run =
-          startPosition + distance * progress;
+          if (progress < 1) {
+            animationFrameId = requestAnimationFrame(animation);
+          }
+        };
 
-        window.scrollTo({
-          top: run,
-          behavior: "instant",
-        });
-
-        if (progress < 1) {
-          requestAnimationFrame(animation);
-        }
-      };
-
-      setTimeout(() => {
-        startTime = Date.now();
-        requestAnimationFrame(animation);
+        animationFrameId = requestAnimationFrame(animation);
       }, 3000);
+
+      return () => {
+        clearTimeout(timerId);
+        cancelAnimationFrame(animationFrameId);
+      };
     }
   }, [opened]);
 
   return (
     <div
       className={`relative min-h-screen text-white ${
-        !opened
-          ? "overflow-hidden h-screen"
-          : "overflow-x-hidden"
+        !opened ? "overflow-hidden h-screen" : "overflow-x-hidden"
       }`}
       style={{ backgroundColor: "#E9DDD4" }}
     >
       <SprayParticles />
 
       {/* الشريط السفلي للتنقل والموسيقى */}
-      <NavigationDock
-        active={opened}
-        playMusic={playMusic}
-      />
+      <NavigationDock active={opened} playMusic={playMusic} />
 
       {/* الظرف */}
       <Envelope
@@ -87,7 +81,6 @@ const Index = () => {
 
       {/* محتوى الموقع */}
       <main className="relative z-10 w-full pb-24">
-
         {/* الصورة الأولى */}
         <section className="w-full">
           <img
@@ -99,7 +92,6 @@ const Index = () => {
 
         {/* المربع الأول بالنصوص الأصلية */}
         <section className="relative w-full flex flex-col items-center justify-start pb-12">
-
           <img
             src={sosImg}
             alt="الصورة الثانية"
@@ -107,28 +99,23 @@ const Index = () => {
           />
 
           <div className="relative z-10 w-full flex flex-col items-center pt-20 sm:pt-32 px-4 space-y-6">
-
             <div
               className="w-[92%] max-w-md p-5 sm:p-7 rounded-3xl text-center backdrop-blur-md border border-white/50 shadow-2xl space-y-2.5"
               style={{
-                background:
-                  "rgba(233, 221, 212, 0.85)",
+                background: "rgba(233, 221, 212, 0.85)",
                 color: "#5F4F41",
               }}
             >
-
               {/* الرقم 2 */}
               <div className="flex items-center justify-center my-4">
                 <span
                   className="inline-block text-6xl sm:text-7xl font-normal leading-none select-none"
                   style={{
-                    fontFamily:
-                      "'Monasabat', sans-serif",
+                    fontFamily: "'Monasabat', sans-serif",
                     color: "#5F4F41",
                     transform: "scale(3.4)",
                     transformOrigin: "center",
-                    textRendering:
-                      "geometricPrecision",
+                    textRendering: "geometricPrecision",
                   }}
                 >
                   2
@@ -137,14 +124,14 @@ const Index = () => {
 
               {/* الثلاث سطور تحته */}
               <p
-                className="font-arabic text-base sm:text-lg opacity-90 "
+                className="font-arabic text-base sm:text-lg opacity-90"
                 style={{ color: "#5F4F41" }}
               >
                 بمشاعر مليئة بالفرح والسعادة
               </p>
 
               <p
-                className="font-arabic text-base sm:text-lg opacity-90 "
+                className="font-arabic text-base sm:text-lg opacity-90"
                 style={{ color: "#5F4F41" }}
               >
                 ولأن الفرحة لا تكتمل الا برؤيتكم
@@ -157,110 +144,63 @@ const Index = () => {
                 تتـــشرف
               </p>
 
-              {/* أم طارق */}
-               <div
+              {/* أم عادل وبناتها */}
+              <div
                 className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2"
                 style={{ color: "#5F4F41" }}
               >
-                <span
-                  style={{
-                    fontFamily:
-                      "'Almarai', sans-serif",
-                  }}
-                >
+                <span style={{ fontFamily: "'Almarai', sans-serif" }}>
                   أم عـادل وبنـاتهـا
                 </span>
-              </div> 
+              </div>
 
-              {/* السطر السادس */}
-         {/*      <p
-                className="font-arabic text-sm sm:text-base pt-2"
-                style={{ color: "#5F4F41" }}
-              >
-                بدعوتكم لحضور حفل زواج أبنها
-              </p>
-{/* 
-              {/* مسافة {/* 
-          {/*    <div className="h-6"></div>
-*/}
-              {/* طارق & كادي */}
+              {/* طيف */}
               <div className="pt-8 pb-2 flex items-center justify-center gap-2">
-
                 <span
                   className="text-4xl sm:text-5xl"
                   style={{
-                    fontFamily:
-                      "'IranNastaliq', sans-serif",
+                    fontFamily: "'IranNastaliq', sans-serif",
                     color: "#5F4F41",
                   }}
                 >
                   طيف
                 </span>
-
-                {/* <span
-                  className="text-2xl"
-                  style={{
-                    fontFamily:
-                      "'WaFont', sans-serif",
-                    color: "#5F4F41",
-                  }}
-                >
-                  &
-                </span>
-
-                <span
-                  className="text-4xl sm:text-5xl"
-                  style={{
-                    fontFamily:
-                      "'IranNastaliq', sans-serif",
-                    color: "#5F4F41",
-                  }}
-                >
-                  يحـيى
-                </span>
-
-              </div> */}
+              </div>
             </div>
 
             {/* قسم الموقع */}
-            <div
-  id="location"
-  className="text-center space-y-0.5 py-1"
->
-  <h3
-    className="font-arabic text-lg sm:text-xl font-bold"
-    style={{ color: "#5F4F41" }}
-  >
-    الموقع
-  </h3>
+            <div id="location" className="text-center space-y-0.5 py-1">
+              <h3
+                className="font-arabic text-lg sm:text-xl font-bold"
+                style={{ color: "#5F4F41" }}
+              >
+                الموقع
+              </h3>
 
-  <p
-    className="font-arabic text-base sm:text-lg font-semibold"
-    style={{ color: "#5F4F41" }}
-  >
-    قاعـة الرون
-  </p>
+              <p
+                className="font-arabic text-base sm:text-lg font-semibold"
+                style={{ color: "#5F4F41" }}
+              >
+                قاعـة الرون
+              </p>
 
-  <p
-    className="font-arabic text-sm sm:text-base font-medium opacity-90"
-    style={{ color: "#5F4F41" }}
-  >
-    صبيا العدايا
-  </p>
-</div>
+              <p
+                className="font-arabic text-sm sm:text-base font-medium opacity-90"
+                style={{ color: "#5F4F41" }}
+              >
+                صبيا العدايا
+              </p>
+            </div>
 
             {/* التقويم */}
             <div className="flex flex-col items-center space-y-3">
-
               <div
                 className="w-60 sm:w-68 rounded-3xl overflow-hidden backdrop-blur-md border border-white/50 shadow-2xl text-center"
                 style={{
-                  background:
-                    "rgba(233, 221, 212, 0.85)",
+                  background: "rgba(233, 221, 212, 0.85)",
                   color: "#5F4F41",
                 }}
               >
-
                 <div
                   className="relative px-4 py-2 flex justify-between items-center font-arabic text-xs sm:text-sm font-bold"
                   style={{
@@ -268,19 +208,12 @@ const Index = () => {
                     color: "#FFFFFF",
                   }}
                 >
-                  <span>لجمعة</span>
-
-                  <span className="text-sm font-extrabold">
-                    سبتمبر
-                  </span>
-
-                  <span className="font-display">
-                    2026
-                  </span>
+                  <span>الجمعة</span>
+                  <span className="text-sm font-extrabold">سبتمبر</span>
+                  <span className="font-display">2026</span>
                 </div>
 
                 <div className="py-4 px-4 space-y-0.5">
-
                   <div
                     className="font-display text-4xl font-extrabold tracking-tight"
                     style={{ color: "#5F4F41" }}
@@ -301,53 +234,42 @@ const Index = () => {
                   >
                     7 . 4 . 1448 هـ
                   </div>
-
                 </div>
               </div>
 
               <button
                 onClick={() => {
-                  window.location.href =
-                    "/wedding.ics";
+                  window.location.href = "/wedding.ics";
                 }}
                 className="flex items-center justify-center gap-2 px-5 py-2 rounded-full backdrop-blur-md border border-white/50 shadow-md transition-transform active:scale-95 hover:scale-105 cursor-pointer"
                 style={{
-                  background:
-                    "rgba(233, 221, 212, 0.85)",
+                  background: "rgba(233, 221, 212, 0.85)",
                   color: "#5F4F41",
                 }}
               >
-
                 <Calendar
                   className="w-4 h-4"
                   style={{ color: "#5F4F41" }}
                 />
-
                 <span className="font-arabic text-xs sm:text-sm font-bold">
                   احفظ الموعد
                 </span>
-
               </button>
-
             </div>
 
             {/* العد التنازلي */}
             <div className="w-full max-w-md text-center space-y-2 pt-1">
-
               <h3
                 className="font-arabic text-base sm:text-lg font-bold"
                 style={{ color: "#5F4F41" }}
               >
                 العدّ التنازلي
               </h3>
-
               <Countdown />
-
             </div>
 
             <EventTimeline />
             <EventDetails />
-
           </div>
         </section>
 
@@ -356,9 +278,7 @@ const Index = () => {
           id="gallery"
           className="relative w-full flex flex-col items-center justify-start"
         >
-
           <div className="relative w-full flex items-center justify-center">
-
             <img
               src={footerBgImg}
               alt="صورة خلفية الفوتر"
@@ -366,13 +286,11 @@ const Index = () => {
             />
 
             <div className="absolute inset-0 flex flex-col items-center justify-center px-4 py-6 overflow-y-auto">
-
               {/* ننتظركم بكل حب */}
               <p
                 className="text-6xl sm:text-7xl font-bold text-center mb-3"
                 style={{
-                  fontFamily:
-                    "'Sull', sans-serif",
+                  fontFamily: "'Sull', sans-serif",
                   color: "#5F4F41",
                 }}
               >
@@ -381,90 +299,54 @@ const Index = () => {
 
               {/* الصورة الصغيرة */}
               <div className="w-[92%] max-w-md rounded-3xl overflow-hidden backdrop-blur-md border border-white/40 shadow-xl mb-6">
-
                 <img
                   src={cardImg}
                   alt="بطاقة تذكارية"
                   className="w-full h-auto object-cover block"
                 />
-
               </div>
 
-              {/* طارق & كادي */}
+              {/* الاسم */}
               <Reveal>
                 <div className="flex items-center justify-center gap-2">
-
                   <span
                     className="text-2xl sm:text-3xl"
                     style={{
-                      fontFamily:
-                        "'IranNastaliq', sans-serif",
+                      fontFamily: "'IranNastaliq', sans-serif",
                       color: "#5F4F41",
                     }}
                   >
                     طيف
                   </span>
-
-                  {/*  <span
-                    className="text-xl"
-                    style={{
-                      fontFamily:
-                        "'WaFont', sans-serif",
-                      color: "#5F4F41",
-                    }}
-                  >
-                    &
-                  </span>
-
-                  <span
-                    className="text-2xl sm:text-3xl"
-                    style={{
-                      fontFamily:
-                        "'IranNastaliq', sans-serif",
-                      color: "#5F4F41",
-                    }}
-                  >
-                    يحـيى
-                  </span> */}
-
-                </div> 
+                </div>
               </Reveal>
 
               {/* غيمة */}
               <Reveal delay={200}>
-  <div
-    className="flex items-center justify-center gap-2 pt-0.5"
-    style={{
-      transform: "translateY(100px)",
-      color: "#5F4F41",
-    }}
-  >
-
+                <div
+                  className="flex items-center justify-center gap-2 pt-0.5"
+                  style={{
+                    transform: "translateY(100px)",
+                    color: "#5F4F41",
+                  }}
+                >
                   <Heart className="w-4 h-4 fill-current text-[#5F4F41]" />
-
                   <span className="font-arabic text-xs sm:text-sm font-semibold">
-
                     <a
                       href="https://www.tiktok.com/@shim2t?_r=1&_t=ZS-95w0d8f7vnk"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline underline-offset-4 font-bold hover:opacity-80 transition-opacity"
-                      style={{
-                        color: "#5F4F41",
-                      }}
+                      style={{ color: "#5F4F41" }}
                     >
                       غيمة
                     </a>
-
                   </span>
-
                 </div>
               </Reveal>
-
             </div>
           </div>
         </section>
-
       </main>
     </div>
   );
