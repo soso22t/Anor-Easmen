@@ -167,7 +167,7 @@ const Index = () => {
 
                 {/* طيف */}
                 <span
-                  className="text-5xl sm:text-6xl"
+                  className="text-5xl sm:text-6xl mt-3"
                   style={{
                     fontFamily: "'IranNastaliq', sans-serif",
                     color: "#5F4F41",
