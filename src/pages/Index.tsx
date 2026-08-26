@@ -154,8 +154,8 @@ const Index = () => {
                 </span>
               </div>
 
-              {/* طيف */}
-              <div className="pt-8 pb-2 flex items-center justify-center gap-2">
+              {/* طيف */}              {/* طيف */}
+              <div className="pt-8 pb-2 flex flex-col items-center justify-center gap-2">
                 <span
                   className="text-4xl sm:text-5xl"
                   style={{
@@ -165,6 +165,14 @@ const Index = () => {
                 >
                   طيف
                 </span>
+
+                {/* السطر الجديد */}
+                <p
+                  className="font-arabic text-base sm:text-lg opacity-90"
+                  style={{ color: "#5F4F41" }}
+                >
+                  بدعوتكم لحضور حفل زفاف ابنتها
+                </p>
               </div>
             </div>
 
@@ -269,7 +277,7 @@ const Index = () => {
             </div>
 
             <EventTimeline />
-            <EventDetails />
+            //<EventDetails />
           </div>
         </section>
 
