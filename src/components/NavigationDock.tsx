@@ -180,7 +180,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     ctx.shadowBlur = 10;
 
     ctx.fillText(
-      "عبـداللّٰه & ريمـان",
+      "طيف",
       canvas.width / 2,
       canvas.height - 150
     );
@@ -246,7 +246,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   // الاتصال
   // =========================================================
   const handlePhoneClick = () => {
-    window.location.href = "tel:0509555821";
+    window.location.href = "tel:0533890275";
   };
 
   // =========================================================
@@ -457,7 +457,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       }}
                       className="text-3xl font-bold"
                     >
-                      تهـاني & يحـيى
+                      طيف
                     </p>
                   </div>
                 </div>
@@ -608,7 +608,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     "'Almarai', sans-serif",
                 }}
               >
- 0509555821
+ 0533890275
               </p>
 
               {/* زر الاتصال البني */}
@@ -1117,7 +1117,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           <button
             onClick={() => {
               window.location.href =
-  "https://www.google.com/maps/search/?api=1&query=قاعة+الرون+العدايا";
+  "https://www.google.com/maps/search/?api=1&query=قاعة+المناخ+تبوك";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
