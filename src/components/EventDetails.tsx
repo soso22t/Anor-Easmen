@@ -46,12 +46,12 @@ const EventDetails = () => {
       className="w-[92%] max-w-md flex flex-col items-center my-4 relative dir-rtl"
     >
       {/* عنوان تفاصيل الحفل بدون خلفية زجاجية */}
-      <h3
+     {/* <h3
         className="font-arabic text-xl sm:text-2xl font-bold text-center mb-6"
         style={{ color: "#5F4F41" }}
       >
         تفاصيل الحفل
-      </h3>
+      </h3> */}
 
       {/* منطقة المستطيلات مع الخط والدوائر الخارجة على اليسار */}
       <div className="w-full relative pl-8 pr-1">
