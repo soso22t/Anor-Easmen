@@ -123,7 +123,7 @@ const Index = () => {
               </div>
 
               {/* الثلاث سطور تحته */}
-              <p
+                            <p
                 className="font-arabic text-base sm:text-lg opacity-90"
                 style={{ color: "#5F4F41" }}
               >
@@ -154,7 +154,8 @@ const Index = () => {
                 </span>
               </div>
 
-              {/* طيف */}              <div className="pt-8 pb-2 flex flex-col items-center justify-center gap-2">
+              {/* طيف */}
+              <div className="pt-2 pb-2 flex flex-col items-center justify-center gap-1">
 
                 {/* السطر فوق الاسم */}
                 <p
@@ -166,7 +167,7 @@ const Index = () => {
 
                 {/* طيف */}
                 <span
-                  className="text-4xl sm:text-5xl"
+                  className="text-5xl sm:text-6xl"
                   style={{
                     fontFamily: "'IranNastaliq', sans-serif",
                     color: "#5F4F41",
