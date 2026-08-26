@@ -338,25 +338,28 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       form.method = "POST";
 
+      // ===== رابط فورم طيف الجديد =====
       form.action =
-        "https://docs.google.com/forms/d/e/1FAIpQLSeuLeGI-2hAr4g_U6Co1tp6ZpSltJCgQMAxhgtCN07gwkJTkw/formResponse";
+        "https://docs.google.com/forms/d/e/1FAIpQLSfDxLRVKWI0G_KNGW9QyNFwXlGS3NYN8BU4KCGCCq6jzi8ezg/formResponse";
 
       form.target = "hidden_google_form";
 
       form.style.display = "none";
 
+      // ===== خانة الاسم =====
       const nameInput =
         document.createElement("input");
 
       nameInput.type = "hidden";
-      nameInput.name = "entry.86988323";
+      nameInput.name = "entry.964272372";
       nameInput.value = finalName;
 
+      // ===== خانة الحالة =====
       const statusInput =
         document.createElement("input");
 
       statusInput.type = "hidden";
-      statusInput.name = "entry.367131422";
+      statusInput.name = "entry.1825192634";
 
       statusInput.value =
         rsvpStatus === "attending"
@@ -608,7 +611,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     "'Almarai', sans-serif",
                 }}
               >
- 0533890275
+                0533890275
               </p>
 
               {/* زر الاتصال البني */}
@@ -1117,7 +1120,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           <button
             onClick={() => {
               window.location.href =
-  "https://www.google.com/maps/search/?api=1&query=قاعة+المناخ+تبوك";
+                "https://www.google.com/maps/search/?api=1&query=قاعة+المناخ+تبوك";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
