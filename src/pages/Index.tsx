@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Heart, Calendar } from "lucide-react";
-import invitationImg from "@/assets/photo-output.png";
+import invitationImg from "@/assets/Bz.png";
 import sosImg from "@/assets/Rn.jpeg";
 
 import footerBgImg from "@/assets/96AF05E8-7D83-48B7-B124-4763797873E0.png";
@@ -141,40 +141,43 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg opacity-90 pb-2"
                 style={{ color: "#5F4F41" }}
               >
-                تتـــشرف
+                نتشرف بدعوتكم لحضور حفل زفاف
               </p>
 
               {/* أم عادل وبناتها */}
-              <div
+            {/*  <div
                 className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2"
                 style={{ color: "#5F4F41" }}
               >
                 <span style={{ fontFamily: "'Almarai', sans-serif" }}>
                   أم عـادل وبنـاتهـا
                 </span>
-              </div>
+              </div>*/}
 
               {/* طيف */}
-              <div className="pt-2 pb-2 flex flex-col items-center justify-center gap-1">
+            {/*  <div className="pt-2 pb-2 flex flex-col items-center justify-center gap-1">*/}
 
                 {/* السطر فوق الاسم */}
-                <p
+              {/*  <p
                   className="font-arabic text-base sm:text-lg opacity-90"
                   style={{ color: "#5F4F41" }}
                 >
                   بدعوتكم لحضور حفل زفاف ابنتها
-                </p>
+                </p> */}
 
                 {/* طيف */}
-                <span
-                  className="text-5xl sm:text-6xl mt-6"
-                  style={{
-                    fontFamily: "'IranNastaliq', sans-serif",
-                    color: "#5F4F41",
-                  }}
-                >
-                  طيف
-                </span>
+                {/* طيف */}
+<span
+  className="text-5xl sm:text-6xl mt-6"
+  style={{
+    fontFamily: "'IranNastaliq', sans-serif",
+    color: "#5F4F41",
+  }}
+>
+  فاطمـة{" "}
+  <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
+  زاهــر
+</span>
 
               </div>
             </div>
@@ -192,14 +195,14 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg font-semibold"
                 style={{ color: "#5F4F41" }}
               >
-                قاعـة المناخ للمناسبات
+                فندق برادايس نيس
               </p>
 
               <p
                 className="font-arabic text-sm sm:text-base font-medium opacity-90"
                 style={{ color: "#5F4F41" }}
               >
-                تبوك
+                جدة
               </p>
             </div>
 
@@ -219,7 +222,7 @@ const Index = () => {
                     color: "#FFFFFF",
                   }}
                 >
-                  <span>الجمعة</span>
+                  <span>الخميس</span>
                   <span className="text-sm font-extrabold">سبتمبر</span>
                   <span className="font-display">2026</span>
                 </div>
@@ -229,21 +232,21 @@ const Index = () => {
                     className="font-display text-4xl font-extrabold tracking-tight"
                     style={{ color: "#5F4F41" }}
                   >
-                    18
+                    10
                   </div>
 
                   <div
                     className="font-arabic text-sm font-bold"
                     style={{ color: "#5F4F41" }}
                   >
-                    الجمعة
+                    الخميس
                   </div>
 
                   <div
                     className="font-arabic text-xs font-semibold opacity-80"
                     style={{ color: "#5F4F41" }}
                   >
-                    7 . 4 . 1448 هـ
+                     
                   </div>
                 </div>
               </div>
@@ -319,18 +322,20 @@ const Index = () => {
 
               {/* الاسم */}
               <Reveal>
-                <div className="flex items-center justify-center gap-2">
-                  <span
-                    className="text-2xl sm:text-3xl"
-                    style={{
-                      fontFamily: "'IranNastaliq', sans-serif",
-                      color: "#5F4F41",
-                    }}
-                  >
-                    طيف
-                  </span>
-                </div>
-              </Reveal>
+  <div className="flex items-center justify-center gap-2">
+    <span
+      className="text-2xl sm:text-3xl"
+      style={{
+        fontFamily: "'IranNastaliq', sans-serif",
+        color: "#5F4F41",
+      }}
+    >
+      فاطمـة{" "}
+      <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
+      زاهــر
+    </span>
+  </div>
+</Reveal>
 
               {/* غيمة */}
               <Reveal delay={200}>
