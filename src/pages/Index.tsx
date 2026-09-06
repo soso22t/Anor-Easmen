@@ -123,7 +123,7 @@ const Index = () => {
               </div>
 
               {/* الثلاث سطور تحته */}
-                            <p
+              <p
                 className="font-arabic text-base sm:text-lg opacity-90"
                 style={{ color: "#5F4F41" }}
               >
@@ -145,7 +145,7 @@ const Index = () => {
               </p>
 
               {/* أم عادل وبناتها */}
-            {/*  <div
+              {/*  <div
                 className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2"
                 style={{ color: "#5F4F41" }}
               >
@@ -155,9 +155,9 @@ const Index = () => {
               </div>*/}
 
               {/* طيف */}
-            {/*  <div className="pt-2 pb-2 flex flex-col items-center justify-center gap-1">*/}
+              {/*  <div className="pt-2 pb-2 flex flex-col items-center justify-center gap-1">*/}
 
-                {/* السطر فوق الاسم */}
+              {/* السطر فوق الاسم */}
               {/*  <p
                   className="font-arabic text-base sm:text-lg opacity-90"
                   style={{ color: "#5F4F41" }}
@@ -165,24 +165,22 @@ const Index = () => {
                   بدعوتكم لحضور حفل زفاف ابنتها
                 </p> */}
 
-                {/* طيف */}
-                {/* طيف */}
-<span
-  className="text-5xl sm:text-6xl mt-6"
-  style={{
-    fontFamily: "'IranNastaliq', sans-serif",
-    color: "#5F4F41",
-  }}
->
-  فاطمـة{" "}
-  <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
-  زاهــر
-</span>
+              {/* فاطمة وزاهر */}
+              <span
+                className="text-5xl sm:text-6xl mt-6 block"
+                style={{
+                  fontFamily: "'IranNastaliq', sans-serif",
+                  color: "#5F4F41",
+                }}
+              >
+                فاطمـة{" "}
+                <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
+                زاهــر
+              </span>
 
-              </div>
             </div>
 
- {/* قسم الموقع */}
+            {/* قسم الموقع */}
             <div id="location" className="text-center space-y-0.5 py-1">
               <h3
                 className="font-arabic text-lg sm:text-xl font-bold"
@@ -195,14 +193,14 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg font-semibold"
                 style={{ color: "#5F4F41" }}
               >
-قاعة اوبال
+                قاعة اوبال
               </p>
 
               <p
                 className="font-arabic text-sm sm:text-base font-medium opacity-90"
                 style={{ color: "#5F4F41" }}
               >
-                                فندق برادايس نيس - جدة
+                فندق برادايس نيس - جدة
               </p>
             </div>
 
@@ -322,20 +320,20 @@ const Index = () => {
 
               {/* الاسم */}
               <Reveal>
-  <div className="flex items-center justify-center gap-2">
-    <span
-      className="text-2xl sm:text-3xl"
-      style={{
-        fontFamily: "'IranNastaliq', sans-serif",
-        color: "#5F4F41",
-      }}
-    >
-      فاطمـة{" "}
-      <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
-      زاهــر
-    </span>
-  </div>
-</Reveal>
+                <div className="flex items-center justify-center gap-2">
+                  <span
+                    className="text-2xl sm:text-3xl"
+                    style={{
+                      fontFamily: "'IranNastaliq', sans-serif",
+                      color: "#5F4F41",
+                    }}
+                  >
+                    فاطمـة{" "}
+                    <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
+                    زاهــر
+                  </span>
+                </div>
+              </Reveal>
 
               {/* غيمة */}
               <Reveal delay={200}>
