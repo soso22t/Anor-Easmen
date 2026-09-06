@@ -195,14 +195,14 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg font-semibold"
                 style={{ color: "#5F4F41" }}
               >
-                فندق برادايس نيس
+قاعة اوبال
               </p>
 
               <p
                 className="font-arabic text-sm sm:text-base font-medium opacity-90"
                 style={{ color: "#5F4F41" }}
               >
-                جدة
+                                فندق برادايس نيس - جدة
               </p>
             </div>
 
@@ -283,7 +283,7 @@ const Index = () => {
             </div>
 
             <EventTimeline />
-            //<EventDetails />
+            <EventDetails />
           </div>
         </section>
 
