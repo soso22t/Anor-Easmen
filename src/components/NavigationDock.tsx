@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 // 🎵 استيراد ملف الصوت
-import bgMusic from "@/assets/ti.m4a";
+import bgMusic from "@/assets/zf.m4a";
 
 interface NavigationDockProps {
   active: boolean;
@@ -220,7 +220,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       ) {
         await navigator.share({
           files: [file],
-          title: "تهـاني & يحـيى",
+          title: "فاطمـة & زاهــر",
         });
       } else {
         alert(
@@ -246,7 +246,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   // الاتصال
   // =========================================================
   const handlePhoneClick = () => {
-    window.location.href = "tel:0533890275";
+    window.location.href = "tel:0590997231";
   };
 
   // =========================================================
@@ -340,7 +340,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       // ===== رابط فورم طيف الجديد =====
       form.action =
-        "https://docs.google.com/forms/d/e/1FAIpQLSfDxLRVKWI0G_KNGW9QyNFwXlGS3NYN8BU4KCGCCq6jzi8ezg/formResponse";
+        "https://docs.google.com/forms/d/e/1FAIpQLScP3hxvwt5Ja0uNdGGR0dqdCgAP0sQ0F_WduymeP4Ktco7YSw/formResponse";
 
       form.target = "hidden_google_form";
 
@@ -351,7 +351,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.createElement("input");
 
       nameInput.type = "hidden";
-      nameInput.name = "entry.964272372";
+      nameInput.name = "entry.905017275";
       nameInput.value = finalName;
 
       // ===== خانة الحالة =====
@@ -359,7 +359,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.createElement("input");
 
       statusInput.type = "hidden";
-      statusInput.name = "entry.1825192634";
+      statusInput.name = "entry.61338319";
 
       statusInput.value =
         rsvpStatus === "attending"
@@ -460,7 +460,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       }}
                       className="text-3xl font-bold"
                     >
-                      طيف
+                      فاطمـة   &   زاهــر
                     </p>
                   </div>
                 </div>
@@ -611,7 +611,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     "'Almarai', sans-serif",
                 }}
               >
-                0533890275
+                0590997231
               </p>
 
               {/* زر الاتصال البني */}
@@ -1120,7 +1120,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           <button
             onClick={() => {
               window.location.href =
-                "https://www.google.com/maps/search/?api=1&query=قاعة+المناخ+تبوك";
+                "https://www.google.com/maps/search/?api=1&query=قاعة+اوبال+فندق+برادايس+نيس+جدة";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
