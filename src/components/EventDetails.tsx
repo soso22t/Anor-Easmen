@@ -7,9 +7,9 @@ interface DetailItem {
 }
 
 const details: DetailItem[] = [
-  //{ title: "يمنع اصطحاب الاطفال", icon: <Baby className="w-5 h-5 opacity-80" style={{ color: "#5F4F41" }} /> },
+  { title: "يمنع اصطحاب الاطفال", icon: <Baby className="w-5 h-5 opacity-80" style={{ color: "#5F4F41" }} /> },
   //{ title: "يمنع التصوير", icon: <CameraOff className="w-5 h-5 opacity-80" style={{ color: "#5F4F41" }} /> },
-  //{ title: "يمنع دخول جوالات الكاميرا", icon: <Smartphone className="w-5 h-5 opacity-80" style={{ color: "#5F4F41" }} /> },
+  { title: "يمنع دخول جوالات الكاميرا", icon: <Smartphone className="w-5 h-5 opacity-80" style={{ color: "#5F4F41" }} /> },
 //  { title: "الدخول فقط بالباركود", icon: <QrCode className="w-5 h-5 opacity-80" style={{ color: "#5F4F41" }} /> },
 ];
 
