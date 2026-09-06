@@ -180,7 +180,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     ctx.shadowBlur = 10;
 
     ctx.fillText(
-      "طيف",
+      " فاطمـة   &   زاهــر",
       canvas.width / 2,
       canvas.height - 150
     );
