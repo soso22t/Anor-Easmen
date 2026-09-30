@@ -177,7 +177,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     ctx.shadowBlur = 10;
 
     ctx.fillText(
-      " فاطمـة   &   زاهــر",
+      " أنســور   &   ياسميـن",
       canvas.width / 2,
       canvas.height - 150
     );
@@ -217,7 +217,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       ) {
         await navigator.share({
           files: [file],
-          title: "فاطمـة & زاهــر",
+          title: "أنســور & ياسميـن",
         });
       } else {
         alert(
@@ -439,7 +439,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       }}
                       className="text-3xl font-bold"
                     >
-                      فاطمـة   &   زاهــر
+                      أنســور   &   ياسميـن
                     </p>
                   </div>
                 </div>
@@ -936,7 +936,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           <button
             onClick={() => {
               window.location.href =
-                "https://www.google.com/maps/search/?api=1&query=قاعة+اوبال+فندق+برادايس+نيس+جدة";
+                "https://www.google.com/maps/search/?api=1&query=قاعات+ليالي+الشرق+القاعة+الألماسية";
             }}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
           >
