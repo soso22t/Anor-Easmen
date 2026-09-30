@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Heart, Calendar } from "lucide-react";
-import invitationImg from "@/assets/Bz.png";
-import sosImg from "@/assets/Rn.jpeg";
+import invitationImg from "@/assets/An.jpeg";
+import sosImg from "@/assets/Anx.jpeg";
 
-import footerBgImg from "@/assets/96AF05E8-7D83-48B7-B124-4763797873E0.png";
+import footerBgImg from "@/assets/An.jpeg";
 import cardImg from "@/assets/IMG_5716.jpeg";
 
 import Envelope from "@/components/Envelope";
