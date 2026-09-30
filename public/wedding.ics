@@ -3,12 +3,12 @@ VERSION:2.0
 PRODID:-//Wedding Invitation//AR
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
-UID:wedding-20260910@invitation
-DTSTAMP:20260910T000000Z
-DTSTART:20260910T170000Z
-DTEND:20260910T190000Z
-SUMMARY:حفل زفاف فاطمة & زاهر
-LOCATION:قاعة اوبال - فندق برادايس نيس - جدة 
-DESCRIPTION:nيسعدنا تشريفكم ومشاركتنا فرحتنا 🤍💍
+UID:wedding-20261116@invitation
+DTSTAMP:20261116T000000Z
+DTSTART:20261116T170000Z
+DTEND:20261116T190000Z
+SUMMARY:حفل زفاف أنور & ياسمين
+LOCATION:قاعات ليالي الشرق - القاعة الألماسية 
+DESCRIPTION:يسعدنا تشريفكم ومشاركتنا فرحتنا 🤍💍
 END:VEVENT
 END:VCALENDAR
