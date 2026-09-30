@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import {
-  Phone,
   Music,
   Camera,
   MapPin,
@@ -11,6 +10,7 @@ import {
   Share2,
   Check,
   Send,
+  Flower2,
 } from "lucide-react";
 
 // 🎵 استيراد ملف الصوت
@@ -31,9 +31,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-
-  // ===== نافذة التواصل =====
-  const [showContact, setShowContact] = useState(false);
 
   // ===== RSVP =====
   const [showRSVP, setShowRSVP] = useState(false);
@@ -236,20 +233,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   };
 
   // =========================================================
-  // فتح نافذة التواصل
-  // =========================================================
-  const openContact = () => {
-    setShowContact(true);
-  };
-
-  // =========================================================
-  // الاتصال
-  // =========================================================
-  const handlePhoneClick = () => {
-    window.location.href = "tel:0590997231";
-  };
-
-  // =========================================================
   // فتح نافذة RSVP
   // =========================================================
   const openRSVP = () => {
@@ -338,9 +321,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
       form.method = "POST";
 
-      // ===== رابط فورم طيف الجديد =====
+      // ===== رابط الفورم الجديد =====
       form.action =
-        "https://docs.google.com/forms/d/e/1FAIpQLScP3hxvwt5Ja0uNdGGR0dqdCgAP0sQ0F_WduymeP4Ktco7YSw/formResponse";
+        "https://docs.google.com/forms/d/e/1FAIpQLSc_Jmr2E8VNwK9Hi2czzdD_G1FAD015k0TJWk0lng4iT6Bk9w/formResponse";
 
       form.target = "hidden_google_form";
 
@@ -351,7 +334,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.createElement("input");
 
       nameInput.type = "hidden";
-      nameInput.name = "entry.905017275";
+      nameInput.name = "entry.1410931106";
       nameInput.value = finalName;
 
       // ===== خانة الحالة =====
@@ -359,7 +342,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         document.createElement("input");
 
       statusInput.type = "hidden";
-      statusInput.name = "entry.61338319";
+      statusInput.name = "entry.746981398";
 
       statusInput.value =
         rsvpStatus === "attending"
@@ -413,9 +396,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
 
   return (
     <>
-      {/* =====================================================
-          الصوت
-      ====================================================== */}
+      {/* الصوت */}
       <audio
         ref={audioRef}
         loop
@@ -428,9 +409,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         className="hidden"
       />
 
-      {/* =====================================================
-          شاشة الكاميرا والفلتر
-      ====================================================== */}
+      {/* شاشة الكاميرا والفلتر */}
       {showCamera && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
           <div className="relative w-full h-full max-w-[500px] aspect-[9/16] bg-black flex items-center justify-center overflow-hidden">
@@ -488,7 +467,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     className="w-full p-4 rounded-3xl backdrop-blur-xl border border-white/30 flex flex-col items-center gap-3 shadow-2xl"
                     style={{
                       background:
-                        "rgba(35, 28, 23, 0.82)",
+                        "rgba(67, 61, 32, 0.82)",
                     }}
                   >
                     <div className="w-full flex items-center justify-center gap-3">
@@ -525,7 +504,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       onClick={handleShare}
                       className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-arabic text-sm font-bold shadow-lg transition-all active:scale-95 cursor-pointer"
                       style={{
-                        backgroundColor: "#8C7A6B",
+                        backgroundColor: "#433D20",
                         color: "#FFFFFF",
                       }}
                     >
@@ -540,130 +519,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         </div>
       )}
 
-      {/* =====================================================
-          نافذة التواصل
-      ====================================================== */}
-      {showContact && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
-
-          {/* الخلفية */}
-          <div
-            className="absolute inset-0 bg-black/25 backdrop-blur-md"
-            onClick={() =>
-              setShowContact(false)
-            }
-          />
-
-          {/* المربع */}
-          <div
-            className="relative w-full max-w-[380px] rounded-[32px] px-7 py-8 shadow-2xl border border-white/30"
-            style={{
-              background:
-                "rgba(245, 239, 231, 0.96)",
-              color: "#5F4F41",
-            }}
-          >
-
-            {/* زخرفة الركن العلوي */}
-            <div className="absolute top-3 right-4 text-xl opacity-60">
-              ❈
-            </div>
-
-            <div className="absolute top-3 left-4 text-xl opacity-60">
-              ❈
-            </div>
-
-            {/* المحتوى */}
-            <div className="text-center py-5">
-
-              <Phone
-                className="mx-auto w-10 h-10 mb-4"
-                style={{
-                  color: "#5F4F41",
-                }}
-              />
-
-              <h2
-                className="text-2xl font-bold mb-3"
-                style={{
-                  fontFamily:
-                    "'IranNastaliq', sans-serif",
-                }}
-              >
-                للتواصل
-              </h2>
-
-              <p
-                className="text-sm leading-8 mb-2"
-                style={{
-                  fontFamily:
-                    "'Almarai', sans-serif",
-                }}
-              >
- 
-              </p>
-
-              <p
-                className="text-lg font-bold mb-6"
-                dir="ltr"
-                style={{
-                  fontFamily:
-                    "'Almarai', sans-serif",
-                }}
-              >
-                0590997231
-              </p>
-
-              {/* زر الاتصال البني */}
-              <button
-                type="button"
-                onClick={handlePhoneClick}
-                className="w-full py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-all"
-                style={{
-                  fontFamily:
-                    "'Almarai', sans-serif",
-                  background: "#5F4F41",
-                  color: "#FFFFFF",
-                }}
-              >
-                <Phone className="w-4 h-4" />
-                اتصال
-              </button>
-
-              {/* إلغاء */}
-              <button
-                type="button"
-                onClick={() =>
-                  setShowContact(false)
-                }
-                className="w-full mt-3 py-2 text-sm"
-                style={{
-                  fontFamily:
-                    "'Almarai', sans-serif",
-                  color: "#5F4F41",
-                }}
-              >
-                إلغاء
-              </button>
-
-            </div>
-
-            {/* زخارف سفلية */}
-            <div className="absolute bottom-3 right-4 text-xl opacity-60">
-              ❈
-            </div>
-
-            <div className="absolute bottom-3 left-4 text-xl opacity-60">
-              ❈
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* =====================================================
-          نافذة تأكيد الحضور
-      ====================================================== */}
+      {/* نافذة تأكيد الحضور */}
       {showRSVP && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
 
@@ -679,7 +535,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             style={{
               background:
                 "rgba(245, 239, 231, 0.96)",
-              color: "#5F4F41",
+              color: "#433D20",
             }}
           >
 
@@ -729,7 +585,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
-                    background: "#5F4F41",
+                    background: "#433D20",
                     color: "#FFFFFF",
                   }}
                 >
@@ -752,8 +608,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 <Heart
                   className="mx-auto w-10 h-10 mb-4"
                   style={{
-                    color: "#806F63",
-                    fill: "#806F63",
+                    color: "#433D20",
+                    fill: "#433D20",
                   }}
                 />
 
@@ -788,7 +644,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
-                    background: "#5F4F41",
+                    background: "#433D20",
                     color: "#FFFFFF",
                   }}
                 >
@@ -837,7 +693,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
-                    background: "#5F4F41",
+                    background: "#433D20",
                     color: "#FFFFFF",
                   }}
                 >
@@ -850,7 +706,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               <div className="text-center py-12">
 
                 <div
-                  className="mx-auto w-10 h-10 rounded-full border-4 border-[#5F4F41]/20 border-t-[#5F4F41] animate-spin mb-5"
+                  className="mx-auto w-10 h-10 rounded-full border-4 border-[#433D20]/20 border-t-[#433D20] animate-spin mb-5"
                 />
 
                 <p
@@ -916,8 +772,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                       background:
                         "rgba(255,255,255,0.65)",
                       borderColor:
-                        "rgba(95,79,65,0.25)",
-                      color: "#5F4F41",
+                        "rgba(67,61,32,0.25)",
+                      color: "#433D20",
                     }}
                     dir="rtl"
                   />
@@ -939,14 +795,14 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         "'Almarai', sans-serif",
                       background:
                         rsvpStatus === "attending"
-                          ? "#5F4F41"
+                          ? "#433D20"
                           : "rgba(255,255,255,0.65)",
                       color:
                         rsvpStatus === "attending"
                           ? "#FFFFFF"
-                          : "#5F4F41",
+                          : "#433D20",
                       borderColor:
-                        "#5F4F41",
+                        "#433D20",
                     }}
                   >
                     <Check className="w-4 h-4" />
@@ -967,14 +823,14 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         "'Almarai', sans-serif",
                       background:
                         rsvpStatus === "declined"
-                          ? "#5F4F41"
+                          ? "#433D20"
                           : "rgba(255,255,255,0.65)",
                       color:
                         rsvpStatus === "declined"
                           ? "#FFFFFF"
-                          : "#5F4F41",
+                          : "#433D20",
                       borderColor:
-                        "#5F4F41",
+                        "#433D20",
                     }}
                   >
                     <X className="w-4 h-4" />
@@ -994,7 +850,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
-                    background: "#5F4F41",
+                    background: "#433D20",
                     color: "#FFFFFF",
                   }}
                 >
@@ -1017,7 +873,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   style={{
                     fontFamily:
                       "'Almarai', sans-serif",
-                    color: "#5F4F41",
+                    color: "#433D20",
                   }}
                 >
                   إلغاء
@@ -1037,9 +893,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         </div>
       )}
 
-      {/* =====================================================
-          الشريط السفلي
-      ====================================================== */}
+      {/* الشريط السفلي */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md pointer-events-auto">
 
         <div
@@ -1048,33 +902,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             background:
               "rgba(255, 255, 255, 0.45)",
             boxShadow:
-              "0 10px 30px rgba(95, 79, 65, 0.2)",
+              "0 10px 30px rgba(67, 61, 32, 0.2)",
           }}
         >
 
-          {/* 1. تواصل */}
-          <button
-            onClick={openContact}
-            className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
-          >
-            <Phone
-              className="w-5 h-5"
-              style={{
-                color: "#5F4F41",
-              }}
-            />
-
-            <span
-              className="font-arabic text-[11px] font-bold"
-              style={{
-                color: "#5F4F41",
-              }}
-            >
-              تواصل
-            </span>
-          </button>
-
-          {/* 2. موسيقى */}
+          {/* 1. موسيقى */}
           <button
             onClick={toggleMusic}
             className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
@@ -1086,37 +918,21 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   : "opacity-50"
               }`}
               style={{
-                color: "#5F4F41",
+                color: "#433D20",
               }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
-                color: "#5F4F41",
+                color: "#433D20",
               }}
             >
               موسيقى
             </span>
           </button>
 
-          {/* 3. الكاميرا */}
-          <button
-            onClick={openCamera}
-            className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
-          >
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
-              style={{
-                background:
-                  "#5F4F41",
-              }}
-            >
-              <Camera className="w-6 h-6 text-white" />
-            </div>
-          </button>
-
-          {/* 4. الموقع */}
+          {/* 2. الموقع */}
           <button
             onClick={() => {
               window.location.href =
@@ -1127,17 +943,54 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             <MapPin
               className="w-5 h-5"
               style={{
-                color: "#5F4F41",
+                color: "#433D20",
               }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
-                color: "#5F4F41",
+                color: "#433D20",
               }}
             >
               الموقع
+            </span>
+          </button>
+
+          {/* 3. الوردة - الزر الرئيسي */}
+          <button
+            className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
+          >
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/40"
+              style={{
+                background:
+                  "#433D20",
+              }}
+            >
+              <Flower2 className="w-6 h-6 text-white" />
+            </div>
+          </button>
+
+          {/* 4. الكاميرا */}
+          <button
+            onClick={openCamera}
+            className="flex flex-col items-center justify-center gap-1 cursor-pointer transition-transform active:scale-95"
+          >
+            <Camera
+              className="w-5 h-5"
+              style={{
+                color: "#433D20",
+              }}
+            />
+
+            <span
+              className="font-arabic text-[11px] font-bold"
+              style={{
+                color: "#433D20",
+              }}
+            >
+              الكاميرا
             </span>
           </button>
 
@@ -1149,14 +1002,14 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             <Heart
               className="w-5 h-5"
               style={{
-                color: "#5F4F41",
+                color: "#433D20",
               }}
             />
 
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
-                color: "#5F4F41",
+                color: "#433D20",
               }}
             >
               تأكيد الحضور
