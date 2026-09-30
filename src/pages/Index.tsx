@@ -18,43 +18,54 @@ const Index = () => {
   const [opened, setOpened] = useState(false);
   const [playMusic, setPlayMusic] = useState(false);
 
-  // =========================================================
-  // التمرير التلقائي
+   // =========================================================
+  // التمرير التلقائي - يتوقف عند سحب المستخدم
   // =========================================================
   useEffect(() => {
     if (opened) {
       let animationFrameId: number;
       let timerId: NodeJS.Timeout;
-
+      let userInteracted = false;
+      const stopAutoScroll = () => {
+        userInteracted = true;
+        clearTimeout(timerId);
+        cancelAnimationFrame(animationFrameId);
+        window.removeEventListener("touchstart", stopAutoScroll);
+        window.removeEventListener("wheel", stopAutoScroll);
+        window.removeEventListener("pointerdown", stopAutoScroll);
+      };
+      window.addEventListener("touchstart", stopAutoScroll, { passive: true });
+      window.addEventListener("wheel", stopAutoScroll, { passive: true });
+      window.addEventListener("pointerdown", stopAutoScroll, { passive: true });
       timerId = setTimeout(() => {
+        if (userInteracted) return;
         const startPosition = window.pageYOffset;
         const targetPosition =
           document.documentElement.scrollHeight - window.innerHeight;
         const distance = targetPosition - startPosition;
         const duration = 40000; // 40 ثانية
         const startTime = Date.now();
-
         const animation = () => {
+          if (userInteracted) return;
           const elapsed = Date.now() - startTime;
           const progress = Math.min(elapsed / duration, 1);
           const run = startPosition + distance * progress;
-
           window.scrollTo({
             top: run,
             behavior: "instant",
           });
-
           if (progress < 1) {
             animationFrameId = requestAnimationFrame(animation);
           }
         };
-
         animationFrameId = requestAnimationFrame(animation);
       }, 3000);
-
       return () => {
         clearTimeout(timerId);
         cancelAnimationFrame(animationFrameId);
+        window.removeEventListener("touchstart", stopAutoScroll);
+        window.removeEventListener("wheel", stopAutoScroll);
+        window.removeEventListener("pointerdown", stopAutoScroll);
       };
     }
   }, [opened]);
@@ -192,7 +203,7 @@ const Index = () => {
                   }}
                 >
                   <div className="flex flex-col items-center">
-                    <span>أنــور</span>
+                    <span>أنســور</span>
 
                     <span
                       className="font-arabic text-sm opacity-85 mt-1"
@@ -217,7 +228,7 @@ const Index = () => {
                   </span>
 
                   <div className="flex flex-col items-center">
-                    <span>ياسيمين</span>
+                    <span>ياسميـن</span>
 
                     <span
                       className="font-arabic text-sm opacity-85 mt-1"
@@ -386,9 +397,9 @@ const Index = () => {
                       color: "#433D20",
                     }}
                   >
-                    أنــور{" "}
+                    أنســور{" "}
                     <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
-                    ياسيمين
+                    ياسميـن
                   </span>
                 </div>
               </Reveal>
