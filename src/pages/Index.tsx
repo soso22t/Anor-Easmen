@@ -90,7 +90,7 @@ const Index = () => {
           />
         </section>
 
-        {/* المربع الأول بالنصوص الأصلية */}
+        {/* المربع الأول بالنصوص */}
         <section className="relative w-full flex flex-col items-center justify-start pb-12">
           <img
             src={sosImg}
@@ -102,8 +102,8 @@ const Index = () => {
             <div
               className="w-[92%] max-w-md p-5 sm:p-7 rounded-3xl text-center backdrop-blur-md border border-white/50 shadow-2xl space-y-2.5"
               style={{
-                background: "rgba(233, 221, 212, 0.85)",
-                color: "#5F4F41",
+                background: "rgba(255, 255, 255, 0.18)",
+                color: "#433D20",
               }}
             >
               {/* الرقم 2 */}
@@ -112,7 +112,7 @@ const Index = () => {
                   className="inline-block text-6xl sm:text-7xl font-normal leading-none select-none"
                   style={{
                     fontFamily: "'Monasabat', sans-serif",
-                    color: "#5F4F41",
+                    color: "#433D20",
                     transform: "scale(3.4)",
                     transformOrigin: "center",
                     textRendering: "geometricPrecision",
@@ -122,61 +122,119 @@ const Index = () => {
                 </span>
               </div>
 
-              {/* الثلاث سطور تحته */}
+              {/* أسطر الترحيب */}
               <p
                 className="font-arabic text-base sm:text-lg opacity-90"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
-                بمشاعر مليئة بالفرح والسعادة
+                في ليلةٍ تجمع الاحبة .. وتبدأ فيها أجمل حكاية
               </p>
 
               <p
                 className="font-arabic text-base sm:text-lg opacity-90"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
-                ولأن الفرحة لا تكتمل الا برؤيتكم
+                بكل الفرح والمحبة
               </p>
 
               <p
                 className="font-arabic text-base sm:text-lg opacity-90 pb-2"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
-                نتشرف بدعوتكم لحضور حفل زفاف
+                تتــشرف عائلتــا
               </p>
 
-              {/* أم عادل وبناتها */}
-              {/*  <div
-                className="flex items-center justify-center gap-1 text-lg sm:text-xl font-bold py-2"
-                style={{ color: "#5F4F41" }}
-              >
-                <span style={{ fontFamily: "'Almarai', sans-serif" }}>
-                  أم عـادل وبنـاتهـا
-                </span>
-              </div>*/}
-
-              {/* طيف */}
-              {/*  <div className="pt-2 pb-2 flex flex-col items-center justify-center gap-1">*/}
-
-              {/* السطر فوق الاسم */}
-              {/*  <p
-                  className="font-arabic text-base sm:text-lg opacity-90"
-                  style={{ color: "#5F4F41" }}
+              {/* أسماء العائلتين */}
+              <div className="flex items-center justify-center gap-3 py-3">
+                <span
+                  className="text-lg sm:text-xl font-bold"
+                  style={{
+                    fontFamily: "'Almarai', sans-serif",
+                    color: "#433D20",
+                  }}
                 >
-                  بدعوتكم لحضور حفل زفاف ابنتها
-                </p> */}
+                  آل العايش
+                </span>
 
-              {/* فاطمة وزاهر */}
-              <span
-                className="text-5xl sm:text-6xl mt-6 block"
-                style={{
-                  fontFamily: "'IranNastaliq', sans-serif",
-                  color: "#5F4F41",
-                }}
+                <span
+                  className="font-arabic text-lg sm:text-xl font-bold"
+                  style={{ color: "#433D20" }}
+                >
+                  &
+                </span>
+
+                <span
+                  className="text-lg sm:text-xl font-bold"
+                  style={{
+                    fontFamily: "'Almarai', sans-serif",
+                    color: "#433D20",
+                  }}
+                >
+                  آل الدقر
+                </span>
+              </div>
+
+              {/* سطر الدعوة */}
+              <p
+                className="font-arabic text-base sm:text-lg opacity-90 pt-2 pb-2"
+                style={{ color: "#433D20" }}
               >
-                فاطمـة{" "}
-                <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
-                ااا
-              </span>
+                بدعوتكم لمشاركتهم فرحة زفاف نجليهما
+              </p>
+
+              {/* أسماء العروسين */}
+              <div className="pt-10 pb-4">
+                <div
+                  className="text-4xl sm:text-5xl flex items-start justify-center gap-3 font-semibold"
+                  style={{
+                    fontFamily: "'IranNastaliq', sans-serif",
+                    color: "#433D20",
+                  }}
+                >
+                  <div className="flex flex-col items-center">
+                    <span>أنــور</span>
+
+                    <span
+                      className="font-arabic text-sm opacity-85 mt-1"
+                      style={{ color: "#433D20" }}
+                    >
+                      حازم العايش
+                    </span>
+
+                    <span
+                      className="font-arabic text-xs opacity-85 mt-1 tracking-widest"
+                      style={{ color: "#433D20" }}
+                    >
+                      ANWAR
+                    </span>
+                  </div>
+
+                  <span
+                    className="font-arabic text-2xl mx-1 mt-9"
+                    style={{ color: "#433D20" }}
+                  >
+                    &
+                  </span>
+
+                  <div className="flex flex-col items-center">
+                    <span>ياسيمين</span>
+
+                    <span
+                      className="font-arabic text-sm opacity-85 mt-1"
+                      style={{ color: "#433D20" }}
+                    >
+                      خالد الدقر
+                    </span>
+
+                    <span
+                      className="font-arabic text-xs opacity-85 mt-1 tracking-widest"
+                      style={{ color: "#433D20" }}
+                    >
+                      YASMINE
+                    </span>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
@@ -184,23 +242,23 @@ const Index = () => {
             <div id="location" className="text-center space-y-0.5 py-1">
               <h3
                 className="font-arabic text-lg sm:text-xl font-bold"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
                 الموقع
               </h3>
 
               <p
                 className="font-arabic text-base sm:text-lg font-semibold"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
-                قاعة اوبال
+                قاعات ليتلي الشرق
               </p>
 
               <p
                 className="font-arabic text-sm sm:text-base font-medium opacity-90"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
-                فندق برادايس نيس - جدة
+                القاعة الألماسية
               </p>
             </div>
 
@@ -209,40 +267,40 @@ const Index = () => {
               <div
                 className="w-60 sm:w-68 rounded-3xl overflow-hidden backdrop-blur-md border border-white/50 shadow-2xl text-center"
                 style={{
-                  background: "rgba(233, 221, 212, 0.85)",
-                  color: "#5F4F41",
+                  background: "rgba(255, 255, 255, 0.18)",
+                  color: "#433D20",
                 }}
               >
                 <div
                   className="relative px-4 py-2 flex justify-between items-center font-arabic text-xs sm:text-sm font-bold"
                   style={{
-                    background: "#5F4F41",
+                    background: "rgba(67, 61, 32, 0.85)",
                     color: "#FFFFFF",
                   }}
                 >
-                  <span>الخميس</span>
-                  <span className="text-sm font-extrabold">سبتمبر</span>
+                  <span>الاثنين</span>
+                  <span className="text-sm font-extrabold">نوفمبر</span>
                   <span className="font-display">2026</span>
                 </div>
 
                 <div className="py-4 px-4 space-y-0.5">
                   <div
                     className="font-display text-4xl font-extrabold tracking-tight"
-                    style={{ color: "#5F4F41" }}
+                    style={{ color: "#433D20" }}
                   >
-                    10
+                    16
                   </div>
 
                   <div
                     className="font-arabic text-sm font-bold"
-                    style={{ color: "#5F4F41" }}
+                    style={{ color: "#433D20" }}
                   >
-                    الخميس
+                    الاثنين
                   </div>
 
                   <div
                     className="font-arabic text-xs font-semibold opacity-80"
-                    style={{ color: "#5F4F41" }}
+                    style={{ color: "#433D20" }}
                   >
                      
                   </div>
@@ -255,13 +313,13 @@ const Index = () => {
                 }}
                 className="flex items-center justify-center gap-2 px-5 py-2 rounded-full backdrop-blur-md border border-white/50 shadow-md transition-transform active:scale-95 hover:scale-105 cursor-pointer"
                 style={{
-                  background: "rgba(233, 221, 212, 0.85)",
-                  color: "#5F4F41",
+                  background: "rgba(255, 255, 255, 0.18)",
+                  color: "#433D20",
                 }}
               >
                 <Calendar
                   className="w-4 h-4"
-                  style={{ color: "#5F4F41" }}
+                  style={{ color: "#433D20" }}
                 />
                 <span className="font-arabic text-xs sm:text-sm font-bold">
                   احفظ الموعد
@@ -273,7 +331,7 @@ const Index = () => {
             <div className="w-full max-w-md text-center space-y-2 pt-1">
               <h3
                 className="font-arabic text-base sm:text-lg font-bold"
-                style={{ color: "#5F4F41" }}
+                style={{ color: "#433D20" }}
               >
                 العدّ التنازلي
               </h3>
@@ -303,7 +361,7 @@ const Index = () => {
                 className="text-6xl sm:text-7xl font-bold text-center mb-3"
                 style={{
                   fontFamily: "'Sull', sans-serif",
-                  color: "#5F4F41",
+                  color: "#433D20",
                 }}
               >
                 ننتظركم بكل حُب
@@ -325,12 +383,12 @@ const Index = () => {
                     className="text-2xl sm:text-3xl"
                     style={{
                       fontFamily: "'IranNastaliq', sans-serif",
-                      color: "#5F4F41",
+                      color: "#433D20",
                     }}
                   >
-                    فاطمـة{" "}
+                    أنــور{" "}
                     <span style={{ fontFamily: "font-arabic" }}>&</span>{" "}
-                    زاهــر
+                    ياسيمين
                   </span>
                 </div>
               </Reveal>
@@ -341,17 +399,17 @@ const Index = () => {
                   className="flex items-center justify-center gap-2 pt-0.5"
                   style={{
                     transform: "translateY(100px)",
-                    color: "#5F4F41",
+                    color: "#433D20",
                   }}
                 >
-                  <Heart className="w-4 h-4 fill-current text-[#5F4F41]" />
+                  <Heart className="w-4 h-4 fill-current text-[#433D20]" />
                   <span className="font-arabic text-xs sm:text-sm font-semibold">
                     <a
                       href="https://www.tiktok.com/@shim2t?_r=1&_t=ZS-95w0d8f7vnk"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline underline-offset-4 font-bold hover:opacity-80 transition-opacity"
-                      style={{ color: "#5F4F41" }}
+                      style={{ color: "#433D20" }}
                     >
                       غيمة
                     </a>
