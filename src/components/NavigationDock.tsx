@@ -12,21 +12,17 @@ import {
   Send,
   Flower2,
 } from "lucide-react";
-
 // 🎵 استيراد ملف الصوت
 import bgMusic from "@/assets/ano.m4a";
-
 interface NavigationDockProps {
   active: boolean;
 }
-
 type RSVPState =
   | { kind: "form" }
   | { kind: "loading" }
   | { kind: "declined"; name: string }
   | { kind: "error"; msg: string }
   | { kind: "success"; name: string };
-
 const NavigationDock = ({ active }: NavigationDockProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
@@ -34,23 +30,19 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const [facingMode, setFacingMode] = useState<"environment" | "user">(
     "environment"
   );
-
   // ===== RSVP =====
   const [showRSVP, setShowRSVP] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [rsvpStatus, setRsvpStatus] = useState<
     "attending" | "declined" | ""
   >("");
-
   const [rsvpState, setRsvpState] = useState<RSVPState>({
     kind: "form",
   });
-
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
-
   // =========================================================
   // تشغيل الموسيقى تلقائياً فور فتح الظرف
   // =========================================================
@@ -64,13 +56,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         });
     }
   }, [active]);
-
   // =========================================================
   // تشغيل / إيقاف الموسيقى
   // =========================================================
   const toggleMusic = () => {
     if (!audioRef.current) return;
-
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -81,7 +71,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         .catch(() => setIsPlaying(false));
     }
   };
-
   // =========================================================
   // فتح الكاميرا
   // =========================================================
@@ -90,7 +79,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       setShowCamera(true);
       setCapturedImage(null);
       setFacingMode("environment");
-
       const mediaStream =
         await navigator.mediaDevices.getUserMedia({
           video: {
@@ -98,9 +86,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           },
           audio: false,
         });
-
       setStream(mediaStream);
-
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
       }
@@ -109,7 +95,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       setShowCamera(false);
     }
   };
-
   // =========================================================
   // تبديل الكاميرا أمامية / خلفية
   // =========================================================
@@ -118,12 +103,10 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
       }
-
       const newFacingMode =
         facingMode === "environment"
           ? "user"
           : "environment";
-
       const mediaStream =
         await navigator.mediaDevices.getUserMedia({
           video: {
@@ -131,10 +114,8 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           },
           audio: false,
         });
-
       setFacingMode(newFacingMode);
       setStream(mediaStream);
-
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
       }
@@ -142,7 +123,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       alert("تعذر تبديل الكاميرا على هذا الجهاز.");
     }
   };
-
   // =========================================================
   // إغلاق الكاميرا
   // =========================================================
@@ -150,37 +130,28 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     if (stream) {
       stream.getTracks().forEach((track) => track.stop());
     }
-
     setStream(null);
     setShowCamera(false);
     setCapturedImage(null);
   };
-
   // =========================================================
   // التقاط الصورة
   // =========================================================
   const capturePhoto = () => {
     if (!videoRef.current || !canvasRef.current) return;
-
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
     if (!ctx) return;
-
     canvas.width = 1080;
     canvas.height = 1920;
-
     const vRatio =
       video.videoWidth / video.videoHeight || 9 / 16;
-
     const cRatio = canvas.width / canvas.height;
-
     let renderWidth = canvas.width;
     let renderHeight = canvas.height;
     let offsetX = 0;
     let offsetY = 0;
-
     if (vRatio > cRatio) {
       renderWidth = canvas.height * vRatio;
       offsetX = (canvas.width - renderWidth) / 2;
@@ -188,7 +159,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       renderHeight = canvas.width / vRatio;
       offsetY = (canvas.height - renderHeight) / 2;
     }
-
     ctx.fillStyle = "#000000";
     ctx.fillRect(
       0,
@@ -196,7 +166,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       canvas.width,
       canvas.height
     );
-
+    // =====================================================
+    // جعل الصورة المحفوظة مطابقة لمعاينة الكاميرا
+    // الأمامية = Mirror
+    // الخلفية = طبيعية
+    // =====================================================
+    ctx.save();
+    if (facingMode === "user") {
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+    }
     ctx.drawImage(
       video,
       offsetX,
@@ -204,39 +183,32 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       renderWidth,
       renderHeight
     );
-
+    ctx.restore();
+    // النص يبقى طبيعي وغير معكوس
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "bold 52px IranNastaliq";
-
     ctx.shadowColor = "rgba(0,0,0,0.45)";
     ctx.shadowBlur = 10;
-
     ctx.fillText(
       " أنســور   &   ياسميـن",
       canvas.width / 2,
       canvas.height - 150
     );
-
     ctx.shadowColor = "transparent";
     ctx.shadowBlur = 0;
-
     const imageUrl = canvas.toDataURL("image/png");
-
     setCapturedImage(imageUrl);
   };
-
   // =========================================================
   // مشاركة الصورة
   // =========================================================
   const handleShare = async () => {
     if (!capturedImage) return;
-
     try {
       const response = await fetch(capturedImage);
       const blob = await response.blob();
-
       const file = new File(
         [blob],
         "wedding-filter.png",
@@ -244,7 +216,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           type: "image/png",
         }
       );
-
       if (
         navigator.share &&
         navigator.canShare &&
@@ -268,61 +239,50 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
       );
     }
   };
-
   // =========================================================
   // فتح نافذة RSVP
   // =========================================================
   const openRSVP = () => {
     setShowRSVP(true);
-
     const savedRSVP =
       localStorage.getItem("guest_rsvp");
-
     if (savedRSVP) {
       try {
         const data = JSON.parse(savedRSVP);
-
         if (
           data.name &&
           data.status === "attending"
         ) {
           setGuestName(data.name);
           setRsvpStatus("attending");
-
           setRsvpState({
             kind: "success",
             name: data.name,
           });
-
           return;
         }
-
         if (
           data.name &&
           data.status === "declined"
         ) {
           setGuestName(data.name);
           setRsvpStatus("declined");
-
           setRsvpState({
             kind: "declined",
             name: data.name,
           });
-
           return;
         }
       } catch {
         localStorage.removeItem("guest_rsvp");
       }
     }
-
     setGuestName("");
     setRsvpStatus("");
     setRsvpState({
       kind: "form",
     });
   };
-
   // =========================================================
   // إرسال RSVP إلى Google Forms فقط
   // =========================================================
@@ -330,73 +290,48 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     if (!guestName.trim() || !rsvpStatus) {
       return;
     }
-
     const finalName = guestName.trim();
-
     setRsvpState({
       kind: "loading",
     });
-
     try {
       let iframe = document.getElementById(
         "hidden_google_form"
       ) as HTMLIFrameElement | null;
-
       if (!iframe) {
         iframe = document.createElement("iframe");
-
         iframe.name = "hidden_google_form";
         iframe.id = "hidden_google_form";
-
         iframe.style.display = "none";
-
         document.body.appendChild(iframe);
       }
-
       const form =
         document.createElement("form");
-
       form.method = "POST";
-
-      // ===== رابط الفورم الجديد =====
       form.action =
         "https://docs.google.com/forms/d/e/1FAIpQLSc_Jmr2E8VNwK9Hi2czzdD_G1FAD015k0TJWk0lng4iT6Bk9w/formResponse";
-
       form.target = "hidden_google_form";
-
       form.style.display = "none";
-
-      // ===== خانة الاسم =====
       const nameInput =
         document.createElement("input");
-
       nameInput.type = "hidden";
       nameInput.name = "entry.1410931106";
       nameInput.value = finalName;
-
-      // ===== خانة الحالة =====
       const statusInput =
         document.createElement("input");
-
       statusInput.type = "hidden";
       statusInput.name = "entry.746981398";
-
       statusInput.value =
         rsvpStatus === "attending"
           ? "تاكيد الحضور"
           : "الاعتذار عن الحضور";
-
       form.appendChild(nameInput);
       form.appendChild(statusInput);
-
       document.body.appendChild(form);
-
       form.submit();
-
       setTimeout(() => {
         form.remove();
       }, 1000);
-
       localStorage.setItem(
         "guest_rsvp",
         JSON.stringify({
@@ -404,16 +339,13 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           status: rsvpStatus,
         })
       );
-
       if (rsvpStatus === "attending") {
         setRsvpState({
           kind: "success",
           name: finalName,
         });
-
         return;
       }
-
       setRsvpState({
         kind: "declined",
         name: finalName,
@@ -423,14 +355,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         "Google Forms error:",
         error
       );
-
       setRsvpState({
         kind: "error",
         msg: "حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى.",
       });
     }
   };
-
   return (
     <>
       {/* الصوت */}
@@ -440,17 +370,14 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         src={bgMusic}
         preload="auto"
       />
-
       <canvas
         ref={canvasRef}
         className="hidden"
       />
-
       {/* شاشة الكاميرا والفلتر */}
       {showCamera && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
           <div className="relative w-full h-full max-w-[500px] aspect-[9/16] bg-black flex items-center justify-center overflow-hidden">
-
             {/* إغلاق الكاميرا */}
             <button
               onClick={closeCamera}
@@ -458,16 +385,18 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
             >
               <X className="w-6 h-6" />
             </button>
-
             {!capturedImage ? (
               <>
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
-                  className="w-full h-full object-cover scale-100"
+                  className={`w-full h-full object-cover scale-100 ${
+                    facingMode === "user"
+                      ? "-scale-x-100"
+                      : ""
+                  }`}
                 />
-
                 {/* زر تبديل الكاميرا */}
                 <button
                   onClick={switchCamera}
@@ -476,7 +405,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 >
                   <RefreshCw className="w-6 h-6" />
                 </button>
-
                 <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-6 text-center bg-gradient-to-t from-black/80 via-black/25 to-transparent">
                   <div className="pb-16 flex flex-col items-center gap-1.5 text-white drop-shadow-2xl">
                     <p
@@ -490,7 +418,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     </p>
                   </div>
                 </div>
-
                 <div className="absolute bottom-6 z-20">
                   <button
                     onClick={capturePhoto}
@@ -502,13 +429,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               </>
             ) : (
               <div className="relative w-full h-full flex flex-col items-center justify-center">
-
                 <img
                   src={capturedImage}
                   alt="الصورة الملتقطة"
                   className="w-full h-full object-cover"
                 />
-
                 <div className="absolute bottom-6 z-30 w-[90%] max-w-[360px]">
                   <div
                     className="w-full p-4 rounded-3xl backdrop-blur-xl border border-white/30 flex flex-col items-center gap-3 shadow-2xl"
@@ -518,7 +443,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     }}
                   >
                     <div className="w-full flex items-center justify-center gap-3">
-
                       <a
                         href={capturedImage}
                         download="mohammed-ahood.png"
@@ -531,7 +455,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         <Download className="w-4 h-4" />
                         حفظ
                       </a>
-
                       <button
                         onClick={() =>
                           setCapturedImage(null)
@@ -546,7 +469,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                         إعادة
                       </button>
                     </div>
-
                     <button
                       onClick={handleShare}
                       className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-arabic text-sm font-bold shadow-lg transition-all active:scale-95 cursor-pointer"
@@ -565,18 +487,15 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
           </div>
         </div>
       )}
-
       {/* نافذة تأكيد الحضور */}
       {showRSVP && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-5">
-
           <div
             className="absolute inset-0 bg-black/25 backdrop-blur-md"
             onClick={() =>
               setShowRSVP(false)
             }
           />
-
           <div
             className="relative w-full max-w-[380px] max-h-[90vh] overflow-y-auto rounded-[32px] px-7 py-8 shadow-2xl border border-white/30"
             style={{
@@ -585,22 +504,17 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               color: "#433D20",
             }}
           >
-
             <div className="absolute top-3 right-4 text-xl opacity-60">
               ❈
             </div>
-
             <div className="absolute top-3 left-4 text-xl opacity-60">
               ❈
             </div>
-
             {rsvpState.kind === "success" && (
               <div className="text-center py-6">
-
                 <div className="text-4xl mb-4">
                   ♡
                 </div>
-
                 <h2
                   className="text-2xl font-bold mb-3"
                   style={{
@@ -610,7 +524,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 >
                   تم تأكيد حضوركم
                 </h2>
-
                 <p
                   className="text-sm leading-8"
                   style={{
@@ -622,7 +535,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   <br />
                   سعداء بتأكيد حضوركم
                 </p>
-
                 <button
                   type="button"
                   onClick={() =>
@@ -638,20 +550,16 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 >
                   العودة إلى الدعوة
                 </button>
-
                 <div className="absolute bottom-3 right-4 text-xl opacity-60">
                   ❈
                 </div>
-
                 <div className="absolute bottom-3 left-4 text-xl opacity-60">
                   ❈
                 </div>
               </div>
             )}
-
             {rsvpState.kind === "declined" && (
               <div className="text-center py-6">
-
                 <Heart
                   className="mx-auto w-10 h-10 mb-4"
                   style={{
@@ -659,7 +567,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     fill: "#433D20",
                   }}
                 />
-
                 <h2
                   className="text-2xl font-bold mb-4"
                   style={{
@@ -669,7 +576,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 >
                   تم تسجيل اعتذاركم
                 </h2>
-
                 <p
                   className="text-sm leading-8"
                   style={{
@@ -681,7 +587,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   <br />
                   ونراك في مناسبة أخرى بإذن الله
                 </p>
-
                 <button
                   type="button"
                   onClick={() =>
@@ -699,15 +604,12 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 </button>
               </div>
             )}
-
             {rsvpState.kind === "error" && (
               <>
                 <div className="text-center mb-6">
-
                   <div className="text-3xl mb-3">
                     !
                   </div>
-
                   <h2
                     className="text-xl font-bold"
                     style={{
@@ -717,7 +619,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   >
                     تعذر إتمام الطلب
                   </h2>
-
                   <p
                     className="mt-3 text-sm leading-7"
                     style={{
@@ -728,7 +629,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     {rsvpState.msg}
                   </p>
                 </div>
-
                 <button
                   type="button"
                   onClick={() =>
@@ -748,14 +648,11 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 </button>
               </>
             )}
-
             {rsvpState.kind === "loading" && (
               <div className="text-center py-12">
-
                 <div
                   className="mx-auto w-10 h-10 rounded-full border-4 border-[#433D20]/20 border-t-[#433D20] animate-spin mb-5"
                 />
-
                 <p
                   className="text-sm font-bold"
                   style={{
@@ -767,11 +664,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 </p>
               </div>
             )}
-
             {rsvpState.kind === "form" && (
               <>
                 <div className="text-center mb-7">
-
                   <h2
                     className="text-2xl font-bold"
                     style={{
@@ -781,7 +676,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   >
                     تأكيـد الحضور
                   </h2>
-
                   <p
                     className="mt-2 text-sm"
                     style={{
@@ -792,9 +686,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     يسعدنا ويشرفنا حضوركم
                   </p>
                 </div>
-
                 <div className="mb-5">
-
                   <label
                     className="block text-right mb-2 text-sm font-bold"
                     style={{
@@ -804,7 +696,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   >
                     الاسم الكريم
                   </label>
-
                   <input
                     type="text"
                     value={guestName}
@@ -825,9 +716,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     dir="rtl"
                   />
                 </div>
-
                 <div className="flex gap-3 mb-6">
-
                   <button
                     type="button"
                     onClick={() => {
@@ -855,7 +744,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     <Check className="w-4 h-4" />
                     تأكيد الحضور
                   </button>
-
                   <button
                     type="button"
                     onClick={() => {
@@ -884,7 +772,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     الاعتذار عن الحضور
                   </button>
                 </div>
-
                 <button
                   type="button"
                   onClick={submitRSVP}
@@ -910,7 +797,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                     </span>
                   )}
                 </button>
-
                 <button
                   type="button"
                   onClick={() =>
@@ -927,22 +813,17 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 </button>
               </>
             )}
-
             <div className="absolute bottom-3 right-4 text-xl opacity-60">
               ❈
             </div>
-
             <div className="absolute bottom-3 left-4 text-xl opacity-60">
               ❈
             </div>
-
           </div>
         </div>
       )}
-
       {/* الشريط السفلي */}
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md pointer-events-auto">
-
         <div
           className="w-full px-3 py-2.5 rounded-3xl border border-white/50 shadow-2xl flex items-center justify-around backdrop-blur-md"
           style={{
@@ -952,7 +833,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               "0 10px 30px rgba(67, 61, 32, 0.2)",
           }}
         >
-
           {/* 1. موسيقى */}
           <button
             onClick={toggleMusic}
@@ -968,7 +848,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 color: "#433D20",
               }}
             />
-
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
@@ -978,7 +857,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               موسيقى
             </span>
           </button>
-
           {/* 2. الموقع */}
           <button
             onClick={() => {
@@ -993,7 +871,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 color: "#433D20",
               }}
             />
-
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
@@ -1003,7 +880,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               الموقع
             </span>
           </button>
-
           {/* 3. الوردة - الزر الرئيسي */}
           <button
             className="relative -top-2 flex flex-col items-center justify-center cursor-pointer transition-transform active:scale-95"
@@ -1018,7 +894,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               <Flower2 className="w-6 h-6 text-white" />
             </div>
           </button>
-
           {/* 4. الكاميرا */}
           <button
             onClick={openCamera}
@@ -1030,7 +905,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 color: "#433D20",
               }}
             />
-
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
@@ -1040,7 +914,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               الكاميرا
             </span>
           </button>
-
           {/* 5. تأكيد الحضور */}
           <button
             onClick={openRSVP}
@@ -1052,7 +925,6 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                 color: "#433D20",
               }}
             />
-
             <span
               className="font-arabic text-[11px] font-bold"
               style={{
@@ -1062,11 +934,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
               تأكيد الحضور
             </span>
           </button>
-
         </div>
       </div>
     </>
   );
 };
-
 export default NavigationDock;
