@@ -156,35 +156,34 @@ const Index = () => {
               </p>
 
               {/* أسماء العائلتين */}
-              <div className="flex items-center justify-center gap-3 py-3">
-                <span
-                  className="text-lg sm:text-xl font-bold"
-                  style={{
-                    fontFamily: "'Almarai', sans-serif",
-                    color: "#433D20",
-                  }}
-                >
-                  آل العايش
-                </span>
+<div className="flex items-center justify-center gap-6 py-3">
+  <span
+    className="text-xl sm:text-2xl font-bold"
+    style={{
+      fontFamily: "'Almarai', sans-serif",
+      color: "#433D20",
+    }}
+  >
+    آل العايش
+  </span>
 
-                <span
-                  className="font-arabic text-lg sm:text-xl font-bold"
-                  style={{ color: "#433D20" }}
-                >
-                  &
-                </span>
+  <span
+    className="font-arabic text-xl sm:text-2xl font-bold"
+    style={{ color: "#433D20" }}
+  >
+    &
+  </span>
 
-                <span
-                  className="text-lg sm:text-xl font-bold"
-                  style={{
-                    fontFamily: "'Almarai', sans-serif",
-                    color: "#433D20",
-                  }}
-                >
-                  آل الدقر
-                </span>
-              </div>
-
+  <span
+    className="text-xl sm:text-2xl font-bold"
+    style={{
+      fontFamily: "'Almarai', sans-serif",
+      color: "#433D20",
+    }}
+  >
+    آل الدقر
+  </span>
+</div>
               {/* سطر الدعوة */}
               <p
                 className="font-arabic text-base sm:text-lg opacity-90 pt-2 pb-2"
@@ -306,7 +305,7 @@ const Index = () => {
                     className="font-arabic text-sm font-bold"
                     style={{ color: "#433D20" }}
                   >
-                    الاثنين
+                        
                   </div>
 
                   <div
