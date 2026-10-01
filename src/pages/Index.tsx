@@ -4,7 +4,7 @@ import invitationImg from "@/assets/photo-output.jpeg";
 import sosImg from "@/assets/Anx.jpeg";
 
 import footerBgImg from "@/assets/An.jpeg";
-import cardImg from "@/assets/IMG_5716.jpeg";
+import cardImg from "@/assets/IMG_8206.png";
 
 import Envelope from "@/components/Envelope";
 import SprayParticles from "@/components/SprayParticles";
