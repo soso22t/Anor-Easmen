@@ -261,7 +261,7 @@ const Index = () => {
                 className="font-arabic text-base sm:text-lg font-semibold"
                 style={{ color: "#433D20" }}
               >
-                قاعات ليتلي الشرق
+                قاعات ليالي الشرق
               </p>
 
               <p
