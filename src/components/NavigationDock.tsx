@@ -188,7 +188,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#FFFFFF";
-    ctx.font = "bold 52px IranNastaliq";
+    ctx.font = "bold 70px IranNastaliq";
     ctx.shadowColor = "rgba(0,0,0,0.45)";
     ctx.shadowBlur = 10;
     ctx.fillText(
