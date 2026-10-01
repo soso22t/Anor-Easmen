@@ -31,6 +31,9 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [facingMode, setFacingMode] = useState<"environment" | "user">(
+    "environment"
+  );
 
   // ===== RSVP =====
   const [showRSVP, setShowRSVP] = useState(false);
@@ -86,6 +89,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     try {
       setShowCamera(true);
       setCapturedImage(null);
+      setFacingMode("environment");
 
       const mediaStream =
         await navigator.mediaDevices.getUserMedia({
@@ -103,6 +107,39 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
     } catch (err) {
       alert("يرجى السماح للمتصفح بالوصول إلى الكاميرا.");
       setShowCamera(false);
+    }
+  };
+
+  // =========================================================
+  // تبديل الكاميرا أمامية / خلفية
+  // =========================================================
+  const switchCamera = async () => {
+    try {
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+
+      const newFacingMode =
+        facingMode === "environment"
+          ? "user"
+          : "environment";
+
+      const mediaStream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: newFacingMode },
+          },
+          audio: false,
+        });
+
+      setFacingMode(newFacingMode);
+      setStream(mediaStream);
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+      }
+    } catch (err) {
+      alert("تعذر تبديل الكاميرا على هذا الجهاز.");
     }
   };
 
@@ -414,6 +451,7 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
           <div className="relative w-full h-full max-w-[500px] aspect-[9/16] bg-black flex items-center justify-center overflow-hidden">
 
+            {/* إغلاق الكاميرا */}
             <button
               onClick={closeCamera}
               className="absolute top-6 right-6 z-30 p-2.5 rounded-full bg-black/40 text-white border border-white/20 backdrop-blur-md cursor-pointer"
@@ -429,6 +467,15 @@ const NavigationDock = ({ active }: NavigationDockProps) => {
                   playsInline
                   className="w-full h-full object-cover scale-100"
                 />
+
+                {/* زر تبديل الكاميرا */}
+                <button
+                  onClick={switchCamera}
+                  className="absolute top-6 left-6 z-30 p-2.5 rounded-full bg-black/40 text-white border border-white/20 backdrop-blur-md cursor-pointer active:scale-95 transition-transform"
+                  aria-label="تبديل الكاميرا"
+                >
+                  <RefreshCw className="w-6 h-6" />
+                </button>
 
                 <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-6 text-center bg-gradient-to-t from-black/80 via-black/25 to-transparent">
                   <div className="pb-16 flex flex-col items-center gap-1.5 text-white drop-shadow-2xl">
